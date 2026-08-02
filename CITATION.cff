@@ -1,0 +1,52 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the archived release and the associated article."
+title: "Reproducible analysis code for lightning mortality at high altitude in the Peruvian Andes, 2017-2024"
+type: software
+version: "1.0.0"
+date-released: 2026-08-02
+authors:
+  - family-names: "Flores Huanca"
+    given-names: "Beatriz"
+    affiliation: "Professional School of Nursing, National University of the Altiplano, Puno, Peru"
+    orcid: "https://orcid.org/0000-0002-7914-9662"
+  - family-names: "Gomez Quispe"
+    given-names: "Hugo Yosef"
+    affiliation: "Professional School of Systems Engineering, National University of the Altiplano, Puno, Peru"
+    orcid: "https://orcid.org/0000-0002-8627-412X"
+  - family-names: "Romero Flores"
+    given-names: "Robert Antonio"
+    affiliation: "Professional School of Systems Engineering, National University of the Altiplano, Puno, Peru"
+    orcid: "https://orcid.org/0000-0002-6144-9309"
+  - family-names: "Carpio Vargas"
+    given-names: "Edgar Eloy"
+    affiliation: "Professional School of Statistical Engineering and Informatics, National University of the Altiplano, Puno, Peru"
+    orcid: "https://orcid.org/0000-0001-6457-4597"
+  - family-names: "Villasante Saravia"
+    given-names: "Fredy Heric"
+    affiliation: "Professional School of Statistical Engineering and Informatics, National University of the Altiplano, Puno, Peru"
+    orcid: "https://orcid.org/0000-0002-8859-9008"
+  - family-names: "Alvarez Rozas"
+    given-names: "Teresa Paola"
+    affiliation: "Professional School of Statistical Engineering and Informatics, National University of the Altiplano, Puno, Peru"
+    orcid: "https://orcid.org/0000-0002-3214-4506"
+  - family-names: "Charaja Jallo"
+    given-names: "Doris"
+    affiliation: "Professional School of Nursing, National University of the Altiplano, Puno, Peru"
+    orcid: "https://orcid.org/0000-0001-5221-2599"
+  - family-names: "Calsin Apaza"
+    given-names: "Mabel Marialice"
+    affiliation: "Professional School of Nursing, National University of the Altiplano, Puno, Peru"
+    orcid: "https://orcid.org/0000-0002-0637-8499"
+contact:
+  - family-names: "Gomez Quispe"
+    given-names: "Hugo Yosef"
+    email: "hygomez@unap.edu.pe"
+license: MIT
+keywords:
+  - lightning mortality
+  - Peruvian Andes
+  - high altitude
+  - geospatial epidemiology
+  - natural hazards
+  - reproducible research
+  - R

@@ -1,0 +1,43 @@
+# Restricted and row-level mortality data
+data/restricted/**
+data/derived/private/**
+!data/restricted/.gitkeep
+!data/derived/private/.gitkeep
+
+# Original and local source data
+data/raw/**
+**/TB_SINADEF.csv
+**/sinadef_limpio.rds
+**/rayo_validado_nacional.rds
+**/rayo_validado_geografico.rds
+**/import_manifest.csv
+
+# Potentially identifying line lists
+**/*adjudic*
+**/*line_list*
+**/*case_level*
+**/*individual*
+**/10_multiple_victim_events.csv
+
+# Local metadata and absolute-path artifacts
+metadata/local_*
+
+# Backups and temporary files
+**/*backup*
+**/*.bak
+**/*.tmp
+**/*.log
+~$*
+.DS_Store
+Thumbs.db
+
+# R and RStudio
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+renv/library/
+renv/staging/
+
+# Release work directories
+release/_working/

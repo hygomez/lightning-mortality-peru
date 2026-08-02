@@ -1,0 +1,38 @@
+REPRODUCIBILITY QUALITY CONTROL
+Generated: 2026-08-02 15:01:40
+
+PASS: 31
+WARN: 0
+FAIL: 0
+
+PASS RR_high_coast  actual=87.267329  expected=87.26733
+PASS RR_high_rest  actual=35.730267  expected=35.73027
+PASS checca_posterior_rate  actual=266.37401  expected=266.374
+PASS coast_rate  actual=0.14915375  expected=0.1491537
+PASS density_ratio_high_rest  actual=0.51189616  expected=0.512
+PASS electrocution_ratio_high_coast  actual=1.1814237  expected=1.18
+PASS geographic_cases  actual=591  expected=591
+PASS high_altitude_cases  actual=510  expected=510
+PASS high_rate  actual=13.016249  expected=13.016249
+PASS mean_age  actual=42.27656  expected=42.27656
+PASS median_age  actual=44  expected=44
+PASS men  actual=314  expected=314
+PASS missing_altitude  actual=2  expected=2
+PASS model_adjusted_altitude_beta  actual=2.0216147  expected=2.0216147
+PASS model_altitude_beta  actual=2.7683434  expected=2.7683434
+PASS model_density_beta  actual=0.9063378  expected=0.9063378
+PASS mortality_flash_ratio_high_rest  actual=52.452274  expected=52.5
+PASS multiple_event_victims  actual=49  expected=49
+PASS multiple_events  actual=24  expected=24
+PASS national_cases  actual=593  expected=593
+PASS percent_age_5_14  actual=12.141653  expected=12.141653
+PASS percent_home  actual=34.752981  expected=34.752981
+PASS percent_necropsy  actual=9.4435076  expected=9.443508
+PASS percent_oct_mar  actual=85.328836  expected=85.328836
+PASS pilpichaca_posterior_rate  actual=255.24269  expected=255.2427
+PASS women  actual=279  expected=279
+PASS figure_exists_Figure_1_altitude_mortality.png  actual=1  expected=1
+PASS figure_exists_Figure_2_seasonality.png  actual=1  expected=1
+PASS figure_exists_Figure_3_age_sex.png  actual=1  expected=1
+PASS figure_exists_Figure_4_density_mortality.png  actual=1  expected=1
+PASS district_map_exists  actual=1  expected=1

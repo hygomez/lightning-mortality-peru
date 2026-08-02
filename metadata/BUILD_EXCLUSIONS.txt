@@ -1,0 +1,20 @@
+PUBLIC BUILD EXCLUSIONS
+
+The following materials were deliberately excluded:
+- data/restricted/**
+- data/derived/private/**
+- TB_SINADEF.csv
+- sinadef_limpio.rds
+- rayo_validado_nacional.rds
+- rayo_validado_geografico.rds
+- individual cause-of-death chains
+- personal identifiers
+- adjudication line lists
+- backups and temporary files
+- output/tables/10_multiple_victim_events.csv
+
+Reason for excluding table 10:
+it contains a district-date combination for multiple-victim events and is
+not necessary for reproducing the aggregate number of events and victims.
+
+Build version: 1.0.0

@@ -1,0 +1,32 @@
+PUBLIC REPOSITORY BUILD VERIFICATION
+Generated: 2026-08-02 16:47:25
+Version: 1.0.0
+
+Source QC PASS: 31
+Source QC WARN: 0
+Source QC FAIL: 0
+
+Privacy scan: PASS
+Forbidden-path scan: PASS
+Sensitive-header scan: PASS
+Large-file scan: PASS
+District GeoPackage included: TRUE
+
+Explicitly excluded:
+- individual-level SINADEF mortality records
+- personal identifiers
+- free-text causal chains
+- private validated cohorts
+- adjudication files
+- multiple-victim district-date event table
+- backups and temporary files
+
+READY_FOR_GITHUB: YES
+READY_FOR_ZENODO_SOFTWARE: YES, after creating the GitHub release
+READY_FOR_ZENODO_DATASET: YES, after reviewing the separate dataset ZIP
+
+PENDING AFTER ONLINE PUBLICATION:
+- GitHub URL
+- Zenodo software DOI
+- Zenodo dataset DOI
+- manuscript DOI, when available

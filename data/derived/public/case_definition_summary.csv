@@ -1,0 +1,11 @@
+﻿indicator,value
+source_records_2017_2024,1276635
+candidates_before_context_adjudication,594
+excluded_cardiac_storm,1
+national_cases,593
+geographic_cases,591
+missing_altitude,2
+high_altitude_cases,510
+text_only_cases,158
+cie_only_cases,15
+text_and_cie_cases,420

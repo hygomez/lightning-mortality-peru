@@ -1,0 +1,5 @@
+file,required_columns,public_release,notes
+data/restricted/sinadef_limpio.rds,date;UBIGEO;sex;age;up to six DEBIDO fields;up to six CIE fields,NO,Column names may vary; the scripts detect common variants.
+data/processed/poblacion_distrital.csv,UBIGEO;anio;poblacion,"YES, subject to source license",One row per district-year.
+data/processed/distritos_altitud.csv,UBIGEO;altitud;DISTRITO;PROVINCIA;DEPARTAMEN;lon;lat,"YES, subject to source license",Mean district altitude and optional centroids.
+data/processed/rayo_densidad_distrito.csv,UBIGEO;densidad;area_km2,"YES, derived aggregate",District climatological flash density.

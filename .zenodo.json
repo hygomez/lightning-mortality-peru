@@ -1,0 +1,52 @@
+{
+  "title": "Reproducible analysis code for lightning mortality at high altitude in the Peruvian Andes, 2017-2024",
+  "upload_type": "software",
+  "description": "Reproducible analytical code, metadata, quality-control reports, figures, and non-identifying aggregate outputs supporting the study \"High-altitude lightning mortality despite moderate flash density in the Peruvian Andes: a nationwide geospatial study, 2017-2024\". Individual-level SINADEF records are not included.",
+  "creators": [
+    {
+      "name": "Flores Huanca, Beatriz",
+      "affiliation": "Professional School of Nursing, National University of the Altiplano, Puno, Peru",
+      "orcid": "0000-0002-7914-9662"
+    },
+    {
+      "name": "Gomez Quispe, Hugo Yosef",
+      "affiliation": "Professional School of Systems Engineering, National University of the Altiplano, Puno, Peru",
+      "orcid": "0000-0002-8627-412X"
+    },
+    {
+      "name": "Romero Flores, Robert Antonio",
+      "affiliation": "Professional School of Systems Engineering, National University of the Altiplano, Puno, Peru",
+      "orcid": "0000-0002-6144-9309"
+    },
+    {
+      "name": "Carpio Vargas, Edgar Eloy",
+      "affiliation": "Professional School of Statistical Engineering and Informatics, National University of the Altiplano, Puno, Peru",
+      "orcid": "0000-0001-6457-4597"
+    },
+    {
+      "name": "Villasante Saravia, Fredy Heric",
+      "affiliation": "Professional School of Statistical Engineering and Informatics, National University of the Altiplano, Puno, Peru",
+      "orcid": "0000-0002-8859-9008"
+    },
+    {
+      "name": "Alvarez Rozas, Teresa Paola",
+      "affiliation": "Professional School of Statistical Engineering and Informatics, National University of the Altiplano, Puno, Peru",
+      "orcid": "0000-0002-3214-4506"
+    },
+    {
+      "name": "Charaja Jallo, Doris",
+      "affiliation": "Professional School of Nursing, National University of the Altiplano, Puno, Peru",
+      "orcid": "0000-0001-5221-2599"
+    },
+    {
+      "name": "Calsin Apaza, Mabel Marialice",
+      "affiliation": "Professional School of Nursing, National University of the Altiplano, Puno, Peru",
+      "orcid": "0000-0002-0637-8499"
+    }
+  ],
+  "access_right": "open",
+  "license": "mit",
+  "keywords": ["lightning mortality", "Peruvian Andes", "high altitude", "geospatial epidemiology", "SINADEF", "LIS/OTD", "natural hazards", "reproducible research", "R"],
+  "version": "1.0.0",
+  "language": "eng"
+}
