@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased - DOI metadata update
+
+- Added GitHub URL and Zenodo software DOI 10.5281/zenodo.21764486.
+- Added Zenodo aggregate dataset DOI 10.5281/zenodo.21764559.
+- Updated README, citation metadata, and manuscript availability statements.
+
+
 ## 1.0.0 - 2026-08-02
 
 - First clean public release.

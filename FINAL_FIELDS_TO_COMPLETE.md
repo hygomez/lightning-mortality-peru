@@ -1,23 +1,10 @@
-# Final fields to complete after publication
+# Final publication identifiers
 
-The repository is ready to create the GitHub project and the Zenodo drafts.
-Before the final Zenodo publication or manuscript submission, complete:
+- GitHub repository: https://github.com/hygomez/lightning-mortality-peru
+- Software v1.0.0 DOI: https://doi.org/10.5281/zenodo.21764486
+- Software concept DOI: https://doi.org/10.5281/zenodo.21764485
+- Dataset v1.0.0 DOI: https://doi.org/10.5281/zenodo.21764559
+- Dataset concept DOI: https://doi.org/10.5281/zenodo.21764558
 
-1. `metadata/repository_metadata.csv`
-   - github_url
-   - zenodo_doi
-   - dataset_zenodo_doi
-   - manuscript_doi, when available
-
-2. `docs/MANUSCRIPT_STATEMENTS_EN.md`
-   - [GITHUB URL]
-   - [SOFTWARE DOI]
-   - [DATASET DOI]
-
-3. `docs/MANUSCRIPT_STATEMENTS_ES.md`
-   - corresponding Spanish placeholders
-
-4. `CITATION.cff` and `.zenodo.json`
-   - add DOI/repository URL after Zenodo and GitHub are created, if desired
-
-Do not add individual-level SINADEF data at any stage.
+All public identifiers required for manuscript submission are complete.
+Individual-level SINADEF records remain excluded from public release.

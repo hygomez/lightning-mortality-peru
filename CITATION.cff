@@ -3,7 +3,10 @@ message: "If you use this software, please cite the archived release and the ass
 title: "Reproducible analysis code for lightning mortality at high altitude in the Peruvian Andes, 2017-2024"
 type: software
 version: "1.0.0"
-date-released: 2026-08-02
+doi: "10.5281/zenodo.21764486"
+url: "https://github.com/hygomez/lightning-mortality-peru"
+repository-code: "https://github.com/hygomez/lightning-mortality-peru"
+date-released: 2026-08-03
 authors:
   - family-names: "Flores Huanca"
     given-names: "Beatriz"

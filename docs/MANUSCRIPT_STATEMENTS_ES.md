@@ -24,4 +24,4 @@ Beatriz Flores Huanca: Conceptualization; Investigation; Project administration;
 
 ## Disponibilidad de datos y codigo
 
-Los datos agregados no identificables y los materiales de reproducibilidad seran archivados permanentemente en Zenodo en [DOI DEL DATASET]. El codigo analitico estara disponible en GitHub en [URL DE GITHUB] y archivado en Zenodo en [DOI DEL SOFTWARE]. Los registros individuales de SINADEF no se redistribuyen porque contienen informacion sensible sobre mortalidad.
+Los datos agregados no identificables y los materiales de reproducibilidad seran archivados permanentemente en Zenodo en https://doi.org/10.5281/zenodo.21764559. El codigo analitico estara disponible en GitHub en https://github.com/hygomez/lightning-mortality-peru y archivado en Zenodo en https://doi.org/10.5281/zenodo.21764486. Los registros individuales de SINADEF no se redistribuyen porque contienen informacion sensible sobre mortalidad.

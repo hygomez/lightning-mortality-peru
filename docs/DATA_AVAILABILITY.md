@@ -1,34 +1,29 @@
-# Data availability and disclosure strategy
+# Data and code availability
 
-## What is public
+Aggregated, non-identifiable data and reproducibility materials supporting the findings of this study are permanently archived in Zenodo at https://doi.org/10.5281/zenodo.21764559.
 
-The repository may publicly contain:
+The analytical code is available on GitHub at https://github.com/hygomez/lightning-mortality-peru and archived in Zenodo at https://doi.org/10.5281/zenodo.21764486.
 
-- analysis and figure-generation code;
-- the case-definition rules;
-- synthetic test data;
-- district-level counts, denominators, rates, posterior estimates, and model summaries;
-- source metadata and checksums;
-- figures and quality-control reports.
+Individual-level SINADEF records are not redistributed because they contain sensitive mortality information. Original administrative data may be obtained from the corresponding official providers under their applicable access, privacy, and reuse conditions.
 
-## What is not redistributed
+## Permanent identifiers
 
-The repository must not publicly contain:
+- GitHub repository: https://github.com/hygomez/lightning-mortality-peru
+- Software release v1.0.0: https://doi.org/10.5281/zenodo.21764486
+- Aggregated dataset v1.0.0: https://doi.org/10.5281/zenodo.21764559
 
-- individual SINADEF records;
-- `ID_PERSONA` or other direct identifiers;
-- full free-text cause-of-death chains;
-- adjudication spreadsheets containing individual records;
-- local paths or credentials.
+## Public materials included
 
-The individual-level mortality input remains under `data/restricted/` and is ignored by Git.
+- Aggregated, non-identifiable analytical tables.
+- Publication figures.
+- Source and provenance metadata.
+- Quality-control and reproducibility reports.
+- Analytical code and synthetic example data.
 
-## Recommended manuscript statement in English
+## Materials not redistributed
 
-> The mortality data supporting this study were derived from publicly available records of Peru's National Death Information System (SINADEF). To minimize unnecessary redistribution of potentially sensitive individual-level records, the source microdata are not included in this repository. Reproduction instructions, the prespecified case-definition code, non-identifying aggregate data, statistical analysis scripts, and figure-generation code are available at [GITHUB URL] and archived at [ZENODO DOI]. The population, administrative-boundary, elevation, and lightning-climatology sources and access dates are documented in the repository.
-
-## Recommended software availability statement
-
-> Source code is available at [GITHUB URL]. The exact version underlying this article is permanently archived at [ZENODO DOI].
-
-Replace all bracketed fields before submission.
+- Individual-level SINADEF mortality records.
+- Personal identifiers.
+- Free-text cause-of-death chains.
+- Private adjudication files and validated individual cohorts.
+- District-date multiple-victim event line lists.

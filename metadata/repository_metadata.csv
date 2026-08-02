@@ -1,15 +1,17 @@
-﻿field,value
-title_en,"Reproducible analysis code for lightning mortality at high altitude in the Peruvian Andes, 2017-2024"
-title_es,"Codigo de analisis reproducible para la mortalidad por rayos en gran altitud en los Andes peruanos, 2017-2024"
-manuscript_title_en,"High-altitude lightning mortality despite moderate flash density in the Peruvian Andes: a nationwide geospatial study, 2017-2024"
-manuscript_title_es,"Mortalidad por rayos en gran altitud pese a una densidad moderada de descargas en los Andes peruanos: estudio geoespacial nacional, 2017-2024"
-version,1.0.0
-description_en,"Reproducible analytical code, metadata, quality-control reports, figures, and non-identifying aggregate outputs for a nationwide geospatial study of lightning mortality in Peru, 2017-2024."
-description_es,"Codigo analitico reproducible, metadatos, controles de calidad, figuras y resultados agregados no identificables para un estudio geoespacial nacional de mortalidad por rayos en Peru, 2017-2024."
-keywords,lightning mortality;Peruvian Andes;high altitude;geospatial epidemiology;natural hazards;flash density;SINADEF;LIS/OTD;reproducible research;R
-github_url,""
-zenodo_doi,""
-dataset_zenodo_doi,""
-manuscript_doi,""
-corresponding_author,Hugo Yosef Gomez Quispe
-corresponding_email,hygomez@unap.edu.pe
+"field","value"
+"title_en","Reproducible analysis code for lightning mortality at high altitude in the Peruvian Andes, 2017-2024"
+"title_es","Codigo de analisis reproducible para la mortalidad por rayos en gran altitud en los Andes peruanos, 2017-2024"
+"manuscript_title_en","High-altitude lightning mortality despite moderate flash density in the Peruvian Andes: a nationwide geospatial study, 2017-2024"
+"manuscript_title_es","Mortalidad por rayos en gran altitud pese a una densidad moderada de descargas en los Andes peruanos: estudio geoespacial nacional, 2017-2024"
+"version","1.0.0"
+"description_en","Reproducible analytical code, metadata, quality-control reports, figures, and non-identifying aggregate outputs for a nationwide geospatial study of lightning mortality in Peru, 2017-2024."
+"description_es","Codigo analitico reproducible, metadatos, controles de calidad, figuras y resultados agregados no identificables para un estudio geoespacial nacional de mortalidad por rayos en Peru, 2017-2024."
+"keywords","lightning mortality;Peruvian Andes;high altitude;geospatial epidemiology;natural hazards;flash density;SINADEF;LIS/OTD;reproducible research;R"
+"github_url","https://github.com/hygomez/lightning-mortality-peru"
+"zenodo_doi","10.5281/zenodo.21764486"
+"dataset_zenodo_doi","10.5281/zenodo.21764559"
+"manuscript_doi",""
+"corresponding_author","Hugo Yosef Gomez Quispe"
+"corresponding_email","hygomez@unap.edu.pe"
+"software_concept_doi","10.5281/zenodo.21764485"
+"dataset_concept_doi","10.5281/zenodo.21764558"

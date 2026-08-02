@@ -1,5 +1,11 @@
 # Lightning mortality at high altitude in the Peruvian Andes
 
+[![Software DOI](https://zenodo.org/badge/1320835899.svg)](https://doi.org/10.5281/zenodo.21764485)
+
+**Software v1.0.0:** https://doi.org/10.5281/zenodo.21764486
+**Aggregate dataset v1.0.0:** https://doi.org/10.5281/zenodo.21764559
+**GitHub:** https://github.com/hygomez/lightning-mortality-peru
+
 **Public reproducible repository, version 1.0.0**
 
 Associated study: *High-altitude lightning mortality despite moderate flash density in the Peruvian Andes: a nationwide geospatial study, 2017-2024*
@@ -86,7 +92,7 @@ No institutional ethics approval was obtained. The study used secondary administ
 
 ## Availability
 
-The code will be maintained on GitHub and archived in Zenodo. Aggregate, non-identifying data will be deposited as a separate Zenodo dataset. The GitHub URL and Zenodo DOI fields must be completed after publication.
+The analytical code is maintained on GitHub at https://github.com/hygomez/lightning-mortality-peru and permanently archived in Zenodo at https://doi.org/10.5281/zenodo.21764486. Aggregate, non-identifying data and reproducibility materials are archived in Zenodo at https://doi.org/10.5281/zenodo.21764559. Individual-level SINADEF mortality records, personal identifiers, free-text cause-of-death chains, and private adjudication files are not redistributed.
 
 ## Licenses
 
@@ -96,4 +102,6 @@ The code will be maintained on GitHub and archived in Zenodo. Aggregate, non-ide
 
 ## Citation
 
-See `CITATION.cff`. DOI fields will be added after the Zenodo records are published.
+Software: Flores Huanca, B., Gomez Quispe, H. Y., Romero Flores, R. A., et al. (2026). *Reproducible analysis code for lightning mortality at high altitude in the Peruvian Andes, 2017-2024* (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.21764486
+
+Dataset: Flores Huanca, B., Gomez Quispe, H. Y., Romero Flores, R. A., et al. (2026). *Aggregated data supporting the study of lightning mortality in the Peruvian Andes, 2017-2024* (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.21764559
