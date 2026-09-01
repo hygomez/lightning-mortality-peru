@@ -1,0 +1,21 @@
+﻿variable,pesos,I,p_sim
+Desenlace: muertes (conteo),Queen,0.435097635779098,1e-04
+Desenlace: tasa cruda,Queen,0.268754799336115,1e-04
+Desenlace: SMR (obs/esp m1),Queen,0.0855007992353748,0.002
+Residuos Pearson m1,Queen,0.136785214735493,1e-04
+Residuos Pearson m2 (a) piso 0.01,Queen,0.0842961366666693,0.0034
+Residuos Pearson m2 (b) LOD,Queen,0.138174143532093,1e-04
+Residuos deviance m1,Queen,0.317326144575647,1e-04
+Residuos deviance m2 (b),Queen,0.250067208436277,1e-04
+Covariable: log(altitud),Queen,0.888898433439965,1e-04
+Covariable: densidad,Queen,0.811962398410127,1e-04
+Desenlace: muertes (conteo),KNN-8,0.328898413555503,1e-04
+Desenlace: tasa cruda,KNN-8,0.216616468424264,1e-04
+Desenlace: SMR (obs/esp m1),KNN-8,0.0670366626200427,6e-04
+Residuos Pearson m1,KNN-8,0.11581430145102,1e-04
+Residuos Pearson m2 (a) piso 0.01,KNN-8,0.0614684790791061,0.0037
+Residuos Pearson m2 (b) LOD,KNN-8,0.105080670342767,1e-04
+Residuos deviance m1,KNN-8,0.263208250256334,1e-04
+Residuos deviance m2 (b),KNN-8,0.20626587895105,1e-04
+Covariable: log(altitud),KNN-8,0.90223039229985,1e-04
+Covariable: densidad,KNN-8,0.763925639996035,1e-04

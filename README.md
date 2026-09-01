@@ -22,10 +22,15 @@ personal identifiers, free-text cause-of-death chains, or adjudication line list
 - 593 nationally validated lightning-related deaths.
 - 591 deaths with district and altitude information.
 - 510 deaths above 3,500 m.
-- Mortality rate above 3,500 m: 13.02 per million person-years.
+- Mortality rate above 3,500 m: 13.02 per million person-years (95% CI 11.91-14.20).
 - Rate ratio above 3,500 m versus the rest of Peru: 35.7.
-- Rate ratio above 3,500 m versus below 500 m: 87.3.
-- Reproducibility QC: 31 PASS, 0 WARN, 0 FAIL.
+- Rate ratio above 3,500 m versus the lowland stratum (<500 m): 87.3.
+- Rate ratio above 3,500 m versus the **Amazon lowlands**, the region of Peru
+  receiving the most lightning: **13.99** (8.37-23.37), against a flash density only
+  **0.38x** as high, so deaths per million flashes are **199x** greater.
+- District-level quasi-Poisson models, per doubling: altitude **MRR 4.12**, flash
+  density **MRR 2.01** (detection-limit specification; see `CHANGELOG.md`).
+- Reproducibility QC: **65 PASS, 0 WARN, 0 FAIL**; 51 sealed indicators.
 
 ## Repository contents
 
@@ -39,7 +44,10 @@ personal identifiers, free-text cause-of-death chains, or adjudication line list
 - `output/figures/`: publication figures.
 - `output/qc/`: quality-control report.
 - `metadata/`: authorship, sources, checksums, and release metadata.
-- `docs/`: reproducibility, privacy, availability, and submission documentation.
+- `docs/`: reproducibility, privacy, availability, and submission documentation,
+  including `SUBGROUP_RULE.md` and `METHODS_GEOSPATIAL.md`.
+- `CHANGELOG.md`: what changed in v2.0.0 and why, including one documented
+  known behaviour that is not a defect.
 
 ## Reproduction
 

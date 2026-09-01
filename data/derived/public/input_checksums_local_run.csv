@@ -1,3 +1,5 @@
-﻿file,bytes,md5
-sinadef_limpio.rds,63121295,db3cc043d582fbec9b1d02aa1cc2c642
-distritos_altitud.csv,200215,4609d0501a414ff4be186148be546924
+﻿file,bytes,md5,line_ending,md5_normalized_lf
+sinadef_limpio.rds,63121295,db3cc043d582fbec9b1d02aa1cc2c642,,
+distritos_altitud.csv,198323,35a34f97f74803acc551e5d4d07da27b,LF,35a34f97f74803acc551e5d4d07da27b
+poblacion_distrital.csv,541914,d6cc5df6a7420e493e4b8d7d3910a2d2,LF,d6cc5df6a7420e493e4b8d7d3910a2d2
+rayo_densidad_distrito.csv,189229,1a9fe98291fe71b31bd266e307627de9,LF,1a9fe98291fe71b31bd266e307627de9

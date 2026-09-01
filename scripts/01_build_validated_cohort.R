@@ -40,6 +40,16 @@ sin <- merge(sin, alt_min, by.x = "analysis_ubigeo", by.y = "UBIGEO", all.x = TR
 
 national <- sin[final_case == TRUE]
 geographic <- national[!is.na(altitud)]
+# REP-007 (parte 1): el paso de la cohorte nacional a la geografica descarta los
+# casos sin altitud. Se avisa de forma explicita en lugar de perderlos en silencio.
+if (nrow(national) > nrow(geographic)) {
+  perdidos <- national[is.na(altitud)]
+  message(sprintf(
+    "AVISO REP-007: %d de %d casos validados no tienen altitud y quedan fuera de la cohorte geografica (UBIGEO: %s). Se conservan en los analisis nacionales demograficos, temporales y de circunstancia.",
+    nrow(perdidos), nrow(national),
+    paste(ifelse(is.na(perdidos$analysis_ubigeo) | perdidos$analysis_ubigeo == "",
+                 "<sin ubigeo>", perdidos$analysis_ubigeo), collapse = ", ")))
+}
 geographic[, estrato := altitude_stratum(altitud, ANALYSIS$altitude_breaks, ANALYSIS$altitude_labels)]
 national[, estrato := altitude_stratum(altitud, ANALYSIS$altitude_breaks, ANALYSIS$altitude_labels)]
 
@@ -75,7 +85,35 @@ saveRDS(geographic, PATHS$cohort_geographic)
 write_csv_utf8(summary, file.path(PATHS$public_derived, "case_definition_summary.csv"))
 
 # Public audit trail contains counts only, never identifiers or free-text chains.
-source_manifest <- rbindlist(lapply(c(PATHS$mortality, PATHS$altitude), md5_row))
+#
+# REP-001: la v1.0.0 sellaba solo dos archivos y no declaraba el terminador de
+# linea. Un md5 de un CSV cambia por completo si el archivo viaja con CRLF en vez
+# de LF, de modo que un replicador en Windows veia "checksum no coincide" sobre un
+# archivo cuyo CONTENIDO era identico. Ahora se sellan los cuatro insumos, se
+# declara el terminador de cada uno, y para los de texto se anade un md5 calculado
+# sobre el contenido NORMALIZADO a LF: ese segundo valor es invariante frente al
+# transporte y es el que un replicador debe comparar.
+is_text <- function(path) grepl("\\.(csv|txt|md|R|r|py|json|cff|ya?ml)$", path)
+line_ending_of <- function(path) {
+  # Solo tiene sentido en archivos de texto: un RDS comprimido contiene bytes 0x0D
+  # por azar y se reportaria como CRLF sin serlo.
+  if (!is_text(path)) return(NA_character_)
+  raw <- readBin(path, "raw", n = min(file.size(path), 1e6))
+  if (any(raw == as.raw(13))) "CRLF" else "LF"
+}
+md5_lf <- function(path) {
+  if (!is_text(path)) return(NA_character_)
+  raw <- readBin(path, "raw", n = file.size(path))
+  tmp <- tempfile(); on.exit(unlink(tmp), add = TRUE)
+  writeBin(raw[raw != as.raw(13)], tmp)          # elimina CR, deja LF
+  unname(tools::md5sum(tmp))
+}
+source_manifest <- rbindlist(lapply(
+  c(PATHS$mortality, PATHS$altitude, PATHS$population, PATHS$density), md5_row))
+source_manifest[, path := c(PATHS$mortality, PATHS$altitude, PATHS$population, PATHS$density)]
+source_manifest[, line_ending := vapply(path, line_ending_of, character(1))]
+source_manifest[, md5_normalized_lf := vapply(path, md5_lf, character(1))]
+source_manifest[, path := NULL]
 write_csv_utf8(source_manifest, file.path(PATHS$public_derived, "input_checksums_local_run.csv"))
 
 cat("Validated national cohort:", nrow(national), "\n")

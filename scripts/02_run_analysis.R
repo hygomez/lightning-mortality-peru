@@ -46,7 +46,7 @@ setorder(T1, estrato)
 write_csv_utf8(T1, file.path(PATHS$tables, "01_mortality_by_altitude.csv"))
 
 high <- T1[estrato == ">3500"]
-coast <- T1[estrato == "0-500"]
+coast <- T1[estrato == LOWLAND_LABEL]
 rest <- T1[estrato != ">3500", .(deaths = sum(deaths), person_years = sum(person_years))]
 RR <- rbind(
   rate_ratio_ci(high$deaths, high$person_years, rest$deaths, rest$person_years, ">3500 m vs rest of Peru"),
@@ -104,7 +104,7 @@ TC[, electrocution_rate := 1e6 * electrocution_deaths/person_years]
 setorder(TC, estrato)
 write_csv_utf8(TC, file.path(PATHS$tables, "04_negative_control_electrocution.csv"))
 electrocution_ratio <- (TC[estrato == ">3500", electrocution_deaths/person_years]) /
-                       (TC[estrato == "0-500", electrocution_deaths/person_years])
+                       (TC[estrato == LOWLAND_LABEL, electrocution_deaths/person_years])
 
 # 4. National demographic and temporal profile
 sex_col <- safe_col(nac, c("SEXO", "sexo"))
@@ -159,8 +159,13 @@ if (!is.na(nec_col)) profile <- rbind(profile,
 write_csv_utf8(profile, file.path(PATHS$tables, "09_national_profile.csv"))
 
 # 5. Multiple-victim events
-if (all(c("analysis_ubigeo", "analysis_date") %in% names(nac))) {
-  events <- nac[!is.na(analysis_ubigeo) & !is.na(analysis_date), .N, by = .(analysis_ubigeo, analysis_date)][N > 1][order(-N)]
+# REP-003: los eventos se construyen sobre la cohorte GEOGRAFICA (geo, 591 casos),
+# no sobre la nacional (nac, 593), porque los modelos y el analisis distrital tambien
+# usan geo. Antes se mezclaban dos poblaciones distintas en el mismo informe. El
+# resultado numerico no cambia: los dos casos que solo estan en nac carecen de
+# distrito, de modo que el filtro !is.na(analysis_ubigeo) ya los excluia.
+if (all(c("analysis_ubigeo", "analysis_date") %in% names(geo))) {
+  events <- geo[!is.na(analysis_ubigeo) & !is.na(analysis_date), .N, by = .(analysis_ubigeo, analysis_date)][N > 1][order(-N)]
   write_csv_utf8(events, file.path(PATHS$tables, "10_multiple_victim_events.csv"))
 } else events <- data.table(N = integer())
 
@@ -171,6 +176,23 @@ alt_cols <- intersect(c("UBIGEO", "altitud", "DISTRITO", "PROVINCIA", "DEPARTAME
 MD <- merge(alt[, ..alt_cols], pyd, by = "UBIGEO", all.x = TRUE)
 MD <- merge(MD, nd, by = "UBIGEO", all.x = TRUE)
 MD[is.na(deaths), deaths := 0L]
+# REP-007 (parte 2): aqui se descartaban en SILENCIO los distritos sin denominador.
+# Las proyecciones del INEI empiezan en 2018 y la reconstruccion de 2017
+# (P2017 = P2018^2 / P2019) deja sin poblacion a los distritos creados o proyectados
+# por primera vez despues de 2017. Se avisa, y sobre todo se comprueba cuantas
+# MUERTES caen en ellos: si fuera distinto de cero, el denominador estaria sesgando
+# el numerador y habria que tratarlo, no descartarlo.
+descartados <- MD[is.na(person_years) | person_years <= 0 | is.na(altitud)]
+if (nrow(descartados)) {
+  muertes_descartadas <- sum(descartados$deaths, na.rm = TRUE)
+  message(sprintf(
+    "AVISO REP-007: %d distritos descartados del analisis distrital por carecer de denominador o de altitud; contienen %d muertes de la cohorte geografica.",
+    nrow(descartados), muertes_descartadas))
+  if (muertes_descartadas > 0)
+    warning(sprintf(
+      "REP-007: %d muertes caen en distritos sin denominador y quedan fuera de las tasas distritales. Revisar antes de publicar.",
+      muertes_descartadas), call. = FALSE)
+}
 MD <- MD[!is.na(person_years) & person_years > 0 & !is.na(altitud)]
 MD[, estrato := altitude_stratum(altitud, ANALYSIS$altitude_breaks, ANALYSIS$altitude_labels)]
 MD[, crude_rate := 1e6*deaths/person_years]
@@ -194,11 +216,25 @@ write_csv_utf8(head(TOP, 20), file.path(PATHS$tables, "12_highest_risk_districts
 M <- merge(MD[, .(UBIGEO, altitud, person_years, deaths)], den[, .(UBIGEO, densidad)], by = "UBIGEO", all.x = TRUE)
 M <- M[!is.na(densidad) & altitud > 0 & person_years > 0]
 m1 <- glm(deaths ~ log(altitud) + offset(log(person_years/1e6)), family = quasipoisson(), data = M)
-m2 <- glm(deaths ~ log(altitud) + log(pmax(densidad, 0.01)) + offset(log(person_years/1e6)), family = quasipoisson(), data = M)
+# Cambio de especificacion v2.0.0: el piso arbitrario 0,01 se sustituye por la
+# imputacion en el limite de deteccion del producto climatologico (config/config.R).
+m2 <- glm(deaths ~ log(altitud) + log(pmax(densidad, LOD_FLASH_DENSITY)) + offset(log(person_years/1e6)), family = quasipoisson(), data = M)
+# Cambio v2.0.0: la tabla emite IC95 % sobre la escala del predictor lineal y el
+# parametro de dispersion phi del quasi-Poisson. Sin phi no se puede saber cuanta
+# sobredispersion absorbe el modelo, y sin IC la razon por duplicacion es un punto
+# sin incertidumbre. El IC se transforma por duplicacion igual que el estimador.
 model_table <- function(m, name) {
   z <- summary(m)$coefficients
+  phi <- summary(m)$dispersion
+  crit <- qt(0.975, df.residual(m))
   data.table(model = name, term = rownames(z), beta = z[,1], SE = z[,2], p_value = z[,4],
-             rate_ratio_per_doubling = exp(z[,1]*log(2)))
+             beta_CI_lower = z[,1] - crit*z[,2],
+             beta_CI_upper = z[,1] + crit*z[,2],
+             rate_ratio_per_doubling = exp(z[,1]*log(2)),
+             RR_CI_lower = exp((z[,1] - crit*z[,2])*log(2)),
+             RR_CI_upper = exp((z[,1] + crit*z[,2])*log(2)),
+             dispersion_phi = phi,
+             residual_df = df.residual(m))
 }
 MOD <- rbind(model_table(m1, "Altitude only"), model_table(m2, "Altitude plus flash density"))
 write_csv_utf8(MOD, file.path(PATHS$tables, "13_quasipoisson_models.csv"))
@@ -239,7 +275,13 @@ if (!is.na(place_col) && place_col %in% names(geo)) SENS <- rbind(SENS,
 if (!is.na(nec_col) && nec_col %in% names(geo)) SENS <- rbind(SENS,
   sensitivity_restriction(geo[grepl("^SI", toupper(as.character(get(nec_col))))], "Necropsy-confirmed only"))
 if (all(c("analysis_ubigeo", "analysis_date") %in% names(geo))) SENS <- rbind(SENS,
-  sensitivity_restriction(unique(geo, by = c("analysis_ubigeo", "analysis_date")), "One death per district-date event"))
+  # REP-005: la regla queda DECLARADA. unique(by = ubigeo+fecha) conserva la PRIMERA
+  # fila de cada evento distrito-fecha en el orden en que llega la cohorte, no una
+  # elegida al azar ni la de mayor gravedad. Como el desenlace es el recuento de
+  # eventos y no un atributo de la victima, cual se conserve no altera el resultado;
+  # se explicita para que el lector no tenga que deducirlo del codigo.
+  sensitivity_restriction(unique(geo, by = c("analysis_ubigeo", "analysis_date")),
+                          "One death per district-date event (first record per event)"))
 write_csv_utf8(SENS, file.path(PATHS$tables, "14_sensitivity_analysis.csv"))
 
 # 9. Figures in English

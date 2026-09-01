@@ -1,0 +1,5 @@
+﻿modelo,familia,AIC,theta,ventaja_AIC_NB
+Modelo 1: altitud sola,Poisson,2718,,
+Modelo 1: altitud sola,Binomial negativa,2116.7,0.3683,601
+Modelo 2: altitud + densidad,Poisson,2410.3,,
+Modelo 2: altitud + densidad,Binomial negativa,1958.9,0.5428,451

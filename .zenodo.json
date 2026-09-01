@@ -1,7 +1,7 @@
 {
   "title": "Reproducible analysis code for lightning mortality at high altitude in the Peruvian Andes, 2017-2024",
   "upload_type": "software",
-  "description": "Reproducible analytical code, metadata, quality-control reports, figures, and non-identifying aggregate outputs supporting the study \"High-altitude lightning mortality despite moderate flash density in the Peruvian Andes: a nationwide geospatial study, 2017-2024\". Individual-level SINADEF records are not included.",
+  "description": "Reproducible analytical code, metadata, quality-control reports, figures, and non-identifying aggregate outputs supporting the study \"High-altitude lightning mortality despite moderate flash density in the Peruvian Andes: a nationwide geospatial study, 2017-2024\". Individual-level SINADEF records are not included. Version 2.0.0 changes the treatment of censored flash density from an arbitrary floor to imputation at the instrument detection limit, adds spatial diagnostics, sensitivity specifications and terminal checks as first-class scripts, and expands quality control from 31 to 65 checks. The validated cohort is unchanged.",
   "creators": [
     {
       "name": "Flores Huanca, Beatriz",
@@ -46,7 +46,18 @@
   ],
   "access_right": "open",
   "license": "mit",
-  "keywords": ["lightning mortality", "Peruvian Andes", "high altitude", "geospatial epidemiology", "SINADEF", "LIS/OTD", "natural hazards", "reproducible research", "R"],
-  "version": "1.0.0",
-  "language": "eng"
+  "keywords": [
+    "lightning mortality",
+    "Peruvian Andes",
+    "high altitude",
+    "geospatial epidemiology",
+    "SINADEF",
+    "LIS/OTD",
+    "natural hazards",
+    "reproducible research",
+    "R"
+  ],
+  "version": "2.0.0",
+  "language": "eng",
+  "publication_date": "2026-09-01"
 }

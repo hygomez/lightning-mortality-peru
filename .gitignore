@@ -41,3 +41,9 @@ renv/staging/
 
 # Release work directories
 release/_working/
+# El paquete publico es un ARTEFACTO DE CONSTRUCCION: lo produce
+# 05_export_public_release.R en cada corrida y se sube a Zenodo, no a git.
+# Versionarlo duplicaria en el repositorio datos que ya viajan en el deposito, y
+# haria que un ZIP obsoleto conviviera con el codigo que ya no lo genera asi.
+release/v*/
+release/*.zip

@@ -1,0 +1,27 @@
+# REP-001. Los checksums de los CSV dependen del terminador de linea. Sin esta
+# declaracion, un clon en Windows convierte a CRLF y todo md5 de un archivo de
+# texto deja de coincidir, sobre un contenido que es identico. Se fija LF para
+# todo el texto del repositorio, que es como se publico la v1.0.0.
+* text=auto eol=lf
+
+*.csv   text eol=lf
+*.md    text eol=lf
+*.R     text eol=lf
+*.r     text eol=lf
+*.py    text eol=lf
+*.txt   text eol=lf
+*.json  text eol=lf
+*.cff   text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+
+# Binarios: nunca convertir.
+*.rds   binary
+*.gpkg  binary
+*.png   binary
+*.tif   binary
+*.tiff  binary
+*.eps   binary
+*.xlsx  binary
+*.hdf   binary
+*.zip   binary
