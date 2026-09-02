@@ -228,8 +228,31 @@ is not checking what it publishes.
 
 - Software v2.0.0: `10.5281/zenodo.22258022` (concept DOI
   `10.5281/zenodo.21764485`, which always resolves to the latest version).
-- The aggregate dataset v2.0.0 is uploaded separately as a new version of deposit
-  `10.5281/zenodo.21764558`.
+- Aggregate dataset v2.0.0: `10.5281/zenodo.22258222` (concept DOI
+  `10.5281/zenodo.21764558`). 40 files, md5 `4675e1fa6068bcc2d65677abc30124bd`.
+
+### Known behaviour - session-info.txt depends on how the export is invoked (REP-018)
+
+`05_export_public_release.R` writes `session-info.txt` with `sessionInfo()`, which
+reports the packages **loaded in the session at that moment**, not the ones the
+analysis requires.
+
+Run inside `run_all.R`, as the published package was, it records the full
+environment: MASS, sandwich, spdep, spData, sf, ggplot2, data.table and 33 packages
+loaded as dependencies. Run on its own against a clean session, the same script
+records only data.table, compiler and zip - 845 bytes against 1,595 - and
+`checksums.csv` carries the difference through. The script does not warn; it
+succeeds either way.
+
+**The published v2.0.0 package carries the complete record**, so the deposit is
+correct. This is noted because a record omitting `sf` and `spdep` in a geospatial
+study is not merely incomplete, it implies they were not needed. `renv.lock`, added
+in this release, seals the ten declared dependencies regardless of invocation, so
+the risk is bounded - but the two files can disagree.
+
+Not fixed in this release. The coherent fix is the one applied to
+`99_freeze_environment.R` in REP-017: derive the record from the declared
+dependencies rather than from whatever happens to be loaded.
 
 ### Known behaviour - not a defect
 

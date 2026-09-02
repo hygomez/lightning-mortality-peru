@@ -20,13 +20,14 @@ archived version rather than to the deposit as a whole.
 |---|---|---|---|
 | Software | **2.0.0** | https://doi.org/10.5281/zenodo.22258022 | 2026-09-02 |
 | Software | 1.0.0 | https://doi.org/10.5281/zenodo.21764486 | 2026-08-02 |
-| Aggregate dataset | 2.0.0 | *pending upload* | — |
+| Aggregate dataset | **2.0.0** | https://doi.org/10.5281/zenodo.22258222 | 2026-09-02 |
 | Aggregate dataset | 1.0.0 | https://doi.org/10.5281/zenodo.21764559 | 2026-08-02 |
 
-The v2.0.0 aggregate dataset is uploaded manually as a new version of the dataset
-deposit; its version DOI is added here once minted. The concept DOI above already
-resolves to whichever version is current, so no manuscript statement depends on
-this row being filled.
+The aggregate dataset is uploaded manually as a new version of its deposit, so its
+version DOI is minted separately from the software one. The archived v2.0.0 package
+is `lightning-mortality-peru-public-aggregates-v2.0.0.zip`, 6,498,238 bytes, md5
+`4675e1fa6068bcc2d65677abc30124bd`: 40 aggregate files, verified to exclude the
+district-date line list of multiple-victim events (REP-016).
 
 ## Recommended manuscript statement
 
