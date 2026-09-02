@@ -1,0 +1,5 @@
+﻿model,family,AIC,theta,AIC_advantage_NB
+Model 1: altitude only,Poisson,2718,,
+Model 1: altitude only,Negative binomial,2116.7,0.3683,601
+Model 2: altitude + flash density,Poisson,2410.3,,
+Model 2: altitude + flash density,Negative binomial,1958.9,0.5428,451

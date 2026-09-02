@@ -1,0 +1,13 @@
+﻿check,indicator,description,quantity,value,expected,tolerance,status
+C1,check_districts_without_2017_denominator,Districts with no reconstructed 2017 population,districts without denominator,18,18,0.001,PASS
+C1,check_deaths_in_districts_without_denominator,Deaths from the geographic cohort in those districts,deaths in districts without denominator,0,0,0.001,PASS
+C2,check_amazon_density_rank,The Amazon leads area-weighted flash density,rank of the Amazon lowland (1 = highest),1,1,0.001,PASS
+C2,check_amazon_area_weighted_density,Amazon lowland flash density,flashes km-2 year-1,20.6478,20.648,0.01,PASS
+C3,check_high_rate_reconstructed_2017,Rate >3500 m with the reconstructed 2017,per million person-years,13.0162493704524,13.0162,0.01,PASS
+C3,check_high_rate_2017_equals_2018,Rate >3500 m setting 2017 = 2018,per million person-years,13.0098960922558,13.0099,0.01,PASS
+C3,check_backextrapolation_impact_pct,Relative change between the two scenarios,% change in the rate,0.0488103601565586,0.05,0.02,PASS
+C4,check_knn_polygons_compared,Polygons compared,districts,1891,1891,0.001,PASS
+C4,check_knn_mean_point_distance_km,Mean centroid vs point-on-surface distance (geodesic),km,2.41444830896806,2.4144,0.01,PASS
+C4,check_knn_districts_over_1km,Districts differing by more than 1 km (geodesic),districts,1206,1206,3,PASS
+C5,check_pacific_coast_deaths,Deaths on the Pacific coast (<500 m),deaths,4,4,0.001,PASS
+C5,check_RR_high_vs_merged_coast,Rate ratio >3500 m vs merged coast,RR,362.064912109099,362.06,1.5,PASS

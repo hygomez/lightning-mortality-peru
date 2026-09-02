@@ -1,0 +1,13 @@
+﻿model,bandwidth_km,beta,SE,MRR,CI95_lower,CI95_upper,p_value
+Model 1: altitude only,no correction,2.7683,0.7258,6.813,2.542,18.263,0.000137
+Model 1: altitude only,100,2.7683,0.7209,6.813,2.559,18.142,0.000123
+Model 1: altitude only,250,2.7683,0.9438,6.813,1.89,24.559,0.00335
+Model 1: altitude only,500,2.7683,1.0062,6.813,1.736,26.733,0.00594
+Model 2: adjusted altitude,no correction,2.0425,0.2561,4.12,2.909,5.834,1.51e-15
+Model 2: adjusted altitude,100,2.0425,0.4381,4.12,2.272,7.47,3.12e-06
+Model 2: adjusted altitude,250,2.0425,0.5181,4.12,2.038,8.328,8.07e-05
+Model 2: adjusted altitude,500,2.0425,0.4422,4.12,2.259,7.512,3.86e-06
+Model 2: flash density,no correction,1.0071,0.1242,2.01,1.698,2.379,5.1e-16
+Model 2: flash density,100,1.0071,0.1724,2.01,1.59,2.541,5.21e-09
+Model 2: flash density,250,1.0071,0.2013,2.01,1.529,2.642,5.64e-07
+Model 2: flash density,500,1.0071,0.1859,2.01,1.561,2.587,6.02e-08

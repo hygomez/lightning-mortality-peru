@@ -1,15 +1,32 @@
 REPRODUCIBILITY QUALITY CONTROL
-Generated: 2026-08-02 15:01:40
+Generated: 2026-09-01 22:50:44
 
-PASS: 31
+PASS: 65
 WARN: 0
 FAIL: 0
 
 PASS RR_high_coast  actual=87.267329  expected=87.26733
 PASS RR_high_rest  actual=35.730267  expected=35.73027
+PASS RR_high_vs_amazon_lowland  actual=13.987974  expected=13.98797
+PASS RR_high_vs_pacific_coast  actual=362.06491  expected=362.0649
 PASS checca_posterior_rate  actual=266.37401  expected=266.374
+PASS check_RR_high_vs_merged_coast  actual=362.06491  expected=362.0649
+PASS check_amazon_area_weighted_density  actual=20.6478  expected=20.6478
+PASS check_amazon_density_rank  actual=1  expected=1
+PASS check_backextrapolation_impact_pct  actual=0.04881036  expected=0.04881
+PASS check_deaths_in_districts_without_denominator  actual=0  expected=0
+PASS check_districts_without_2017_denominator  actual=18  expected=18
+PASS check_high_rate_2017_equals_2018  actual=13.009896  expected=13.009896
+PASS check_high_rate_reconstructed_2017  actual=13.016249  expected=13.016249
+PASS check_knn_districts_over_1km  actual=1206  expected=1206
+PASS check_knn_mean_point_distance_km  actual=2.4144483  expected=2.414448
+PASS check_knn_polygons_compared  actual=1891  expected=1891
+PASS check_pacific_coast_deaths  actual=4  expected=4
 PASS coast_rate  actual=0.14915375  expected=0.1491537
 PASS density_ratio_high_rest  actual=0.51189616  expected=0.512
+PASS density_ratio_high_vs_amazon  actual=0.38181707  expected=0.3817
+PASS dispersion_phi_model1  actual=18.671495  expected=18.671495
+PASS dispersion_phi_model2  actual=3.7650321  expected=3.765032
 PASS electrocution_ratio_high_coast  actual=1.1814237  expected=1.18
 PASS geographic_cases  actual=591  expected=591
 PASS high_altitude_cases  actual=510  expected=510
@@ -18,13 +35,21 @@ PASS mean_age  actual=42.27656  expected=42.27656
 PASS median_age  actual=44  expected=44
 PASS men  actual=314  expected=314
 PASS missing_altitude  actual=2  expected=2
-PASS model_adjusted_altitude_beta  actual=2.0216147  expected=2.0216147
+PASS model_adjusted_altitude_beta  actual=2.0425237  expected=2.0425237
 PASS model_altitude_beta  actual=2.7683434  expected=2.7683434
-PASS model_density_beta  actual=0.9063378  expected=0.9063378
+PASS model_density_beta  actual=1.0071224  expected=1.0071224
+PASS moran_I_deaths_knn8  actual=0.32889841  expected=0.3288984
+PASS moran_I_deaths_queen  actual=0.43509764  expected=0.4350976
+PASS moran_I_residuals_m1_queen  actual=0.13678521  expected=0.1367852
+PASS moran_I_residuals_m2_knn8  actual=0.10508067  expected=0.1050807
+PASS moran_I_residuals_m2_queen  actual=0.13817414  expected=0.1381741
 PASS mortality_flash_ratio_high_rest  actual=52.452274  expected=52.5
+PASS mortality_flash_ratio_high_vs_amazon  actual=198.94319  expected=198.94
 PASS multiple_event_victims  actual=49  expected=49
 PASS multiple_events  actual=24  expected=24
 PASS national_cases  actual=593  expected=593
+PASS negbin_theta_model1  actual=0.3683  expected=0.3683
+PASS negbin_theta_model2  actual=0.5428  expected=0.5428
 PASS percent_age_5_14  actual=12.141653  expected=12.141653
 PASS percent_home  actual=34.752981  expected=34.752981
 PASS percent_necropsy  actual=9.4435076  expected=9.443508
@@ -35,4 +60,13 @@ PASS figure_exists_Figure_1_altitude_mortality.png  actual=1  expected=1
 PASS figure_exists_Figure_2_seasonality.png  actual=1  expected=1
 PASS figure_exists_Figure_3_age_sex.png  actual=1  expected=1
 PASS figure_exists_Figure_4_density_mortality.png  actual=1  expected=1
+PASS figure_exists_manuscript/Fig1.tif  actual=1  expected=1
+PASS figure_exists_manuscript/Fig2.tif  actual=1  expected=1
+PASS figure_exists_manuscript/Fig3.tif  actual=1  expected=1
+PASS figure_exists_manuscript/Fig4.tif  actual=1  expected=1
+PASS figure_exists_manuscript/Fig1.eps  actual=1  expected=1
+PASS figure_exists_manuscript/Fig2.eps  actual=1  expected=1
+PASS figure_exists_manuscript/Fig3.eps  actual=1  expected=1
+PASS figure_exists_manuscript/Fig4.eps  actual=1  expected=1
 PASS district_map_exists  actual=1  expected=1
+PASS tables_without_producing_script  actual=0  expected=0

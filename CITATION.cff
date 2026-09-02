@@ -1,12 +1,9 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the archived release and the associated article."
+message: "If you use this software, please cite the concept DOI, which always resolves to the latest version, and the associated article."
 title: "Reproducible analysis code for lightning mortality at high altitude in the Peruvian Andes, 2017-2024"
 type: software
-version: "1.0.0"
-doi: "10.5281/zenodo.21764486"
-url: "https://github.com/hygomez/lightning-mortality-peru"
-repository-code: "https://github.com/hygomez/lightning-mortality-peru"
-date-released: 2026-08-03
+version: "2.0.0"
+date-released: 2026-09-01
 authors:
   - family-names: "Flores Huanca"
     given-names: "Beatriz"
@@ -40,6 +37,9 @@ authors:
     given-names: "Mabel Marialice"
     affiliation: "Professional School of Nursing, National University of the Altiplano, Puno, Peru"
     orcid: "https://orcid.org/0000-0002-0637-8499"
+url: "https://github.com/hygomez/lightning-mortality-peru"
+repository-code: "https://github.com/hygomez/lightning-mortality-peru"
+doi: "10.5281/zenodo.21764485"
 contact:
   - family-names: "Gomez Quispe"
     given-names: "Hugo Yosef"
@@ -51,5 +51,8 @@ keywords:
   - high altitude
   - geospatial epidemiology
   - natural hazards
+  - flash density
+  - SINADEF
+  - LIS/OTD
   - reproducible research
   - R

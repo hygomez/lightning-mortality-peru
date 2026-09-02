@@ -1,6 +1,6 @@
 # Authors, affiliations, and CRediT contributions
 
-Associated manuscript: *High-altitude lightning mortality despite moderate flash density in the Peruvian Andes: a nationwide geospatial study, 2017-2024*
+Associated manuscript: *Lightning mortality at high altitude exceeds that of Peru's Amazon lowlands despite lower flash density: a nationwide study, 2017-2024*
 
 ## Author order
 

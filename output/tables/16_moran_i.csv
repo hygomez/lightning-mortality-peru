@@ -1,0 +1,21 @@
+﻿variable,weights,I,p_sim
+Outcome: deaths (count),Queen,0.435097635779098,1e-04
+Outcome: crude rate,Queen,0.268754799336115,1e-04
+Outcome: SMR (obs/exp m1),Queen,0.0855007992353748,0.002
+Pearson residuals m1,Queen,0.136785214735493,1e-04
+Pearson residuals m2 (a) floor 0.01,Queen,0.0842961366666693,0.0034
+Pearson residuals m2 (b) LOD,Queen,0.138174143532093,1e-04
+Deviance residuals m1,Queen,0.317326144575647,1e-04
+Deviance residuals m2 (b),Queen,0.250067208436277,1e-04
+Covariate: log(altitude),Queen,0.888898433439965,1e-04
+Covariate: flash density,Queen,0.811962398410127,1e-04
+Outcome: deaths (count),KNN-8,0.328898413555503,1e-04
+Outcome: crude rate,KNN-8,0.216616468424264,1e-04
+Outcome: SMR (obs/exp m1),KNN-8,0.0670366626200427,6e-04
+Pearson residuals m1,KNN-8,0.11581430145102,1e-04
+Pearson residuals m2 (a) floor 0.01,KNN-8,0.0614684790791061,0.0037
+Pearson residuals m2 (b) LOD,KNN-8,0.105080670342767,1e-04
+Deviance residuals m1,KNN-8,0.263208250256334,1e-04
+Deviance residuals m2 (b),KNN-8,0.20626587895105,1e-04
+Covariate: log(altitude),KNN-8,0.90223039229985,1e-04
+Covariate: flash density,KNN-8,0.763925639996035,1e-04

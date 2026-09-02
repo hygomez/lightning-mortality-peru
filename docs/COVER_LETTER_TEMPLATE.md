@@ -2,7 +2,7 @@
 
 **Dear Editor-in-Chief,**
 
-We submit the original research article **“High-altitude lightning mortality despite moderate flash density in the Peruvian Andes: a nationwide geospatial study, 2017–2024”** for consideration in *Geomatics, Natural Hazards and Risk*.
+We submit the original research article **“Lightning mortality at high altitude exceeds that of Peru's Amazon lowlands despite lower flash density: a nationwide study, 2017-2024”** for consideration in your journal.
 
 Using nationwide mortality records, district population denominators, district elevation, and NASA LIS/OTD lightning climatology, we identified a marked mismatch between climatological hazard and population mortality. Districts above 3,500 m accounted for 510 of 591 geocoded deaths and had a mortality rate of 13.02 per million person-years. Their climatological flash density was approximately half that of the rest of Peru, while their mortality-to-flash ratio was 52.5 times higher. The altitudinal association persisted after adjustment for flash density, and non-atmospheric electrocution did not show a comparable gradient.
 

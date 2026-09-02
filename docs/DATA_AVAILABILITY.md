@@ -1,16 +1,16 @@
 # Data and code availability
 
-Aggregated, non-identifiable data and reproducibility materials supporting the findings of this study are permanently archived in Zenodo at https://doi.org/10.5281/zenodo.21764559.
+Aggregated, non-identifiable data and reproducibility materials supporting the findings of this study are permanently archived in Zenodo at https://doi.org/10.5281/zenodo.21764558.
 
-The analytical code is available on GitHub at https://github.com/hygomez/lightning-mortality-peru and archived in Zenodo at https://doi.org/10.5281/zenodo.21764486.
+The analytical code is available on GitHub at https://github.com/hygomez/lightning-mortality-peru and archived in Zenodo at https://doi.org/10.5281/zenodo.21764485.
 
 Individual-level SINADEF records are not redistributed because they contain sensitive mortality information. Original administrative data may be obtained from the corresponding official providers under their applicable access, privacy, and reuse conditions.
 
 ## Permanent identifiers
 
 - GitHub repository: https://github.com/hygomez/lightning-mortality-peru
-- Software release v1.0.0: https://doi.org/10.5281/zenodo.21764486
-- Aggregated dataset v1.0.0: https://doi.org/10.5281/zenodo.21764559
+- Software (concept DOI): https://doi.org/10.5281/zenodo.21764485
+- Aggregated dataset (concept DOI): https://doi.org/10.5281/zenodo.21764558
 
 ## Public materials included
 

@@ -10,9 +10,8 @@ The authors report no conflicts of interest related to this research.
 
 ## Ethics statement
 
-No institutional ethics approval was obtained. This study used secondary administrative data and involved no direct recruitment, contact, or intervention with human participants. The analyses were conducted without attempting to re-identify individuals. Individual-level mortality records are not publicly redistributed.
+This study did not involve any new collection of data from human participants. It is a secondary analysis of anonymized administrative mortality records released by the Peruvian Ministry of Health through the National Open Data Platform and openly downloadable at the time of access. No recruitment, contact, intervention or interaction with human participants took place, and no attempt was made to re-identify any individual. The research ethics procedure of the National University of the Altiplano issues exemption determinations prospectively, for studies that have not yet begun, and therefore provides no mechanism applicable to the retrospective secondary analysis of already-public data reported here. No ethical approval was therefore required or sought.
 
-Editorial note: this wording is transparent but does not represent a waiver issued by an ethics committee. If the journal requests an institutional determination, the authors must respond to that request.
 
 ## Acknowledgements
 
@@ -24,4 +23,4 @@ Beatriz Flores Huanca: Conceptualization; Investigation; Project administration;
 
 ## Data and code availability
 
-Aggregated, non-identifiable data and reproducibility materials supporting the findings of this study will be permanently archived in Zenodo at https://doi.org/10.5281/zenodo.21764559. The analytical code will be available on GitHub at https://github.com/hygomez/lightning-mortality-peru and archived in Zenodo at https://doi.org/10.5281/zenodo.21764486. Individual-level SINADEF records are not redistributed because they contain sensitive mortality information. Original administrative data may be obtained from the corresponding official providers under their applicable access, privacy, and reuse conditions.
+Aggregated, non-identifiable data and reproducibility materials supporting the findings of this study will be permanently archived in Zenodo at https://doi.org/10.5281/zenodo.21764558. The analytical code will be available on GitHub at https://github.com/hygomez/lightning-mortality-peru and archived in Zenodo at https://doi.org/10.5281/zenodo.21764485. Individual-level SINADEF records are not redistributed because they contain sensitive mortality information. Original administrative data may be obtained from the corresponding official providers under their applicable access, privacy, and reuse conditions.

@@ -1,0 +1,4 @@
+﻿above_3500,events,victims,multivictim_events,victims_in_multivictim_events,mean_victims_per_event,max_victims,pct_multivictim_events,panel
+Above 3500 m,486,510,23,47,1.0494,3,4.73,B_by_altitude
+At or below 3500 m,80,81,1,2,1.0125,2,1.25,B_by_altitude
+TOTAL,566,591,24,49,1.0442,3,4.24,B_by_altitude
