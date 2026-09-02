@@ -82,7 +82,9 @@ choice**: the altitude gradient holds under all five treatments of the censoring
   files (TIFF 1200 dpi, EPS, 174 mm wide, no caption inside the image).
 - `docs/SUBGROUP_RULE.md` - the eleven-department rule, which existed nowhere in
   version 1.0.0.
-- `docs/METHODS_GEOSPATIAL.md` - geospatial methods in full.
+- `docs/METHODS_GEOSPATIAL.md` - English reference for the geospatial decisions
+  that affect published figures. The complete working document, with all
+  diagnostic tables, is `docs/METHODS_GEOSPATIAL_ES.md` (Spanish).
 - `.gitattributes` - declares LF line endings for all text (REP-001).
 - `13_quasipoisson_models.csv` now reports 95 % confidence intervals, the dispersion
   parameter φ, and residual degrees of freedom.
