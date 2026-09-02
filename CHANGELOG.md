@@ -6,7 +6,7 @@ Versions follow the archived Zenodo releases.
 
 ---
 
-## [2.0.0] - unreleased
+## [2.0.0] - 2026-09-02
 
 Specification release. **The case definition, the manual adjudication, and the
 validated cohort are unchanged**: still 593 national deaths, 591 with district and
