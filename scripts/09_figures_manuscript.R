@@ -74,7 +74,7 @@ cat("Figure 1: mortality by altitude\n"); render("Fig1", ANCHO_MAX_MM, 108, fig1
 
 # --- Figure 2 -----------------------------------------------------------------
 T2 <- fread(file.path(PATHS$tables, "20_mfr_auditable_lod.csv"))
-T2 <- ordenar(T2[fila %in% ANALYSIS$altitude_labels], "fila")
+T2 <- ordenar(T2[row %in% ANALYSIS$altitude_labels], "row")
 stopifnot(nrow(T2) == 5L)
 T2[, tasa := T1$rate_per_million]
 fig2 <- function() {

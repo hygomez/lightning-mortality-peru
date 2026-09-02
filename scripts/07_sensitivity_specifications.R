@@ -52,22 +52,22 @@ say(sprintf("Panel: %d districts, %d deaths.", nrow(M), sum(M$deaths)))
 # =============================================================================
 # 1. Operational subgroup rule for the lowland stratum
 # =============================================================================
-M[, subgrupo := fifelse(estrato != LOWLAND_LABEL, NA_character_,
+M[, subgroup := fifelse(estrato != LOWLAND_LABEL, NA_character_,
                  fifelse(dep %in% PACIFIC_DEPARTMENTS, "Pacific coast", "Amazon lowland"))]
-REGLA <- M[!is.na(subgrupo), .(districts = .N), by = .(subgrupo, dep, DEPARTAMEN)][order(subgrupo, dep)]
+REGLA <- M[!is.na(subgroup), .(districts = .N), by = .(subgroup, dep, DEPARTAMEN)][order(subgroup, dep)]
 write_csv_utf8(REGLA, file.path(PATHS$tables, "18_lowland_subgroup_rule.csv"))
 say("=== SUBGROUP RULE (applied by exclusion) ===")
-for (g in unique(REGLA$subgrupo)) {
-  x <- REGLA[subgrupo == g]
+for (g in unique(REGLA$subgroup)) {
+  x <- REGLA[subgroup == g]
   say(sprintf("%s: %d districts in %d departments", g, sum(x$districts), nrow(x)))
   say(paste0("   ", paste(sprintf("%s (%s, n=%d)", x$DEPARTAMEN, x$dep, x$districts), collapse = "; ")))
 }
-stopifnot(M[estrato == LOWLAND_LABEL & is.na(subgrupo), .N] == 0L)
+stopifnot(M[estrato == LOWLAND_LABEL & is.na(subgroup), .N] == 0L)
 
 # =============================================================================
 # 2. Table 1b: subgroups with exact Poisson confidence intervals
 # =============================================================================
-M[, grupo := fifelse(estrato == ">3500", "High-Andean stratum (>3,500 m)",
+M[, group := fifelse(estrato == ">3500", "High-Andean stratum (>3,500 m)",
              fifelse(estrato != LOWLAND_LABEL, "Intermediate strata (500-3,500 m)",
              fifelse(dep %in% PACIFIC_DEPARTMENTS, "Lowland: Pacific coast (<500 m)",
                                                    "Lowland: Amazon lowland (<500 m)")))]
@@ -75,14 +75,14 @@ T1b <- M[, .(districts = .N, area_km2 = round(sum(area_km2)),
              person_years = round(sum(py)), deaths = sum(deaths),
              flashes_yr = round(sum(fl_raw)),
              density = round(sum(fl_raw)/sum(area_km2), 3),
-             n_censored = sum(densidad == 0)), by = grupo]
+             n_censored = sum(densidad == 0)), by = group]
 T1b[, `:=`(rate  = round(1e6*deaths/person_years, 4),
            ci_lo = round(poisson_lower(deaths, person_years), 4),
            ci_hi = round(poisson_upper(deaths, person_years), 4),
            MFR   = round(1e6*(deaths/NY)/flashes_yr, 4))]
 ord <- c("High-Andean stratum (>3,500 m)", "Intermediate strata (500-3,500 m)",
          "Lowland: Amazon lowland (<500 m)", "Lowland: Pacific coast (<500 m)")
-T1b <- T1b[match(ord, grupo)]
+T1b <- T1b[match(ord, group)]
 write_csv_utf8(T1b, file.path(PATHS$tables, "19_lowland_subgroups_ci.csv"))
 
 # =============================================================================
@@ -97,12 +97,12 @@ write_csv_utf8(T1b, file.path(PATHS$tables, "19_lowland_subgroups_ci.csv"))
 contraste <- function(etiqueta, sub) {
   d1 <- M[estrato == ">3500"]
   q  <- rate_ratio_ci(sum(d1$deaths), sum(d1$py), sum(sub$deaths), sum(sub$py), etiqueta)
-  data.table(comparacion = etiqueta,
-             RR = q$RR, IC_inf = q$CI_lower, IC_sup = q$CI_upper,
-             muertes_ref = sum(sub$deaths), py_ref = round(sum(sub$py)),
-             tasa_ref = 1e6*sum(sub$deaths)/sum(sub$py),
-             razon_densidad = (sum(d1$fl_lod)/sum(d1$area_km2)) / (sum(sub$fl_lod)/sum(sub$area_km2)),
-             razon_MFR = ((sum(d1$deaths)/NY)/sum(d1$fl_lod)) / ((sum(sub$deaths)/NY)/sum(sub$fl_lod)))
+  data.table(comparison = etiqueta,
+             RR = q$RR, CI_lower = q$CI_lower, CI_upper = q$CI_upper,
+             deaths_ref = sum(sub$deaths), py_ref = round(sum(sub$py)),
+             rate_ref = 1e6*sum(sub$deaths)/sum(sub$py),
+             density_ratio = (sum(d1$fl_lod)/sum(d1$area_km2)) / (sum(sub$fl_lod)/sum(sub$area_km2)),
+             MFR_ratio = ((sum(d1$deaths)/NY)/sum(d1$fl_lod)) / ((sum(sub$deaths)/NY)/sum(sub$fl_lod)))
 }
 CONTR <- rbind(
   contraste(">3500 m vs Amazon lowland (<500 m)",
@@ -113,15 +113,15 @@ write_csv_utf8(CONTR, file.path(PATHS$tables, "28_subgroup_contrasts.csv"))
 say("=== SEPARATE CONTRASTS ===")
 for (i in seq_len(nrow(CONTR)))
   with(CONTR[i], say(sprintf("  %-38s RR %9.3f (%.2f-%.2f)  density %.4f x  MFR %.2f x",
-                             comparacion, RR, IC_inf, IC_sup, razon_densidad, razon_MFR)))
+                             comparison, RR, CI_lower, CI_upper, density_ratio, MFR_ratio)))
 
 # =============================================================================
 # 3. Table 2: auditable MFR -- raw zeros and LOD side by side
 # =============================================================================
 grp <- function(d, lab) data.table(
-  fila = lab, distritos = nrow(d), censurados = sum(d$densidad == 0),
-  pct_cens = round(100*mean(d$densidad == 0), 1), area = round(sum(d$area_km2)),
-  area_cens_pct = round(100*sum(d$area_km2[d$densidad == 0])/sum(d$area_km2), 1),
+  row = lab, districts = nrow(d), censored = sum(d$densidad == 0),
+  pct_censored = round(100*mean(d$densidad == 0), 1), area_km2 = round(sum(d$area_km2)),
+  area_censored_pct = round(100*sum(d$area_km2[d$densidad == 0])/sum(d$area_km2), 1),
   D_total = sum(d$deaths), D_s = round(sum(d$deaths)/NY, 3),
   dens_raw = round(sum(d$fl_raw)/sum(d$area_km2), 3), F_raw = round(sum(d$fl_raw)),
   MFR_raw  = round(1e6*(sum(d$deaths)/NY)/sum(d$fl_raw), 4),
@@ -131,11 +131,11 @@ G <- rbindlist(c(
   lapply(ANALYSIS$altitude_labels, function(e) grp(M[estrato == e], e)),
   list(grp(M[estrato == LOWLAND_LABEL & !dep %in% PACIFIC_DEPARTMENTS], "  Amazon lowland (<500 m)"),
        grp(M[estrato == LOWLAND_LABEL &  dep %in% PACIFIC_DEPARTMENTS], "  Pacific coast (<500 m)"))))
-G[, cambio_MFR_pct := round(100*(MFR_lod - MFR_raw)/MFR_raw, 2)]
+G[, MFR_change_pct := round(100*(MFR_lod - MFR_raw)/MFR_raw, 2)]
 write_csv_utf8(G, file.path(PATHS$tables, "20_mfr_auditable_lod.csv"))
 say("=== TABLE 2: effect of the LOD on the MFR (%) ===")
 for (i in seq_len(nrow(G))) with(G[i], say(sprintf("  %-28s cens %5.1f%%  MFR %9.4f -> %9.4f  (%+6.2f %%)",
-                                                   fila, pct_cens, MFR_raw, MFR_lod, cambio_MFR_pct)))
+                                                   row, pct_censored, MFR_raw, MFR_lod, MFR_change_pct)))
 
 # =============================================================================
 # 4. Five treatments of density censoring
@@ -156,18 +156,18 @@ for (e in especs) {
   for (tm in c("lalt", "ldens")) {
     b <- z[tm, 1]; se <- z[tm, 2]
     filas[[length(filas)+1]] <- data.table(
-      especificacion = e$id, n = nrow(d),
-      parametro = ifelse(tm == "lalt", "Altitude", "Flash density"),
+      specification = e$id, n = nrow(d),
+      parameter = ifelse(tm == "lalt", "Altitude", "Flash density"),
       beta = b, SE = se, IRR = exp(b*LN2),
-      IC95_inf = exp((b - 1.96*se)*LN2), IC95_sup = exp((b + 1.96*se)*LN2),
-      p_value = z[tm, 4], dispersion = summary(m)$dispersion, muertes = sum(d$deaths))
+      CI95_lower = exp((b - 1.96*se)*LN2), CI95_upper = exp((b + 1.96*se)*LN2),
+      p_value = z[tm, 4], dispersion = summary(m)$dispersion, deaths = sum(d$deaths))
   }
 }
 LODT <- rbindlist(filas)
 write_csv_utf8(LODT, file.path(PATHS$tables, "21_lod_five_specifications.csv"))
-a <- LODT[parametro == "Altitude"]
+a <- LODT[parameter == "Altitude"]
 say(sprintf("Altitude IRR across the five specifications: %.3f to %.3f; all CIs exclude 1: %s",
-            min(a$IRR), max(a$IRR), all(a$IC95_inf > 1)))
+            min(a$IRR), max(a$IRR), all(a$CI95_lower > 1)))
 
 # =============================================================================
 # 5. Poisson against negative binomial (AIC)
@@ -187,11 +187,11 @@ f1 <- deaths ~ lalt + offset(off); f2 <- deaths ~ lalt + ldens + offset(off)
 po1 <- glm(f1, family = poisson(), data = M); po2 <- glm(f2, family = poisson(), data = M)
 nb1 <- nb_rob(f1); nb2 <- nb_rob(f2)
 AJ <- data.table(
-  modelo  = rep(c("Model 1: altitude only", "Model 2: altitude + flash density"), each = 2),
-  familia = rep(c("Poisson", "Negative binomial"), 2),
+  model  = rep(c("Model 1: altitude only", "Model 2: altitude + flash density"), each = 2),
+  family = rep(c("Poisson", "Negative binomial"), 2),
   AIC = round(c(AIC(po1), AIC(nb1), AIC(po2), AIC(nb2)), 1),
   theta = c(NA, round(nb1$theta, 4), NA, round(nb2$theta, 4)))
-AJ[, ventaja_AIC_NB := c(NA, round(AIC(po1) - AIC(nb1), 0), NA, round(AIC(po2) - AIC(nb2), 0))]
+AJ[, AIC_advantage_NB := c(NA, round(AIC(po1) - AIC(nb1), 0), NA, round(AIC(po2) - AIC(nb2), 0))]
 write_csv_utf8(AJ, file.path(PATHS$tables, "22_poisson_vs_negbin_aic.csv"))
 
 # =============================================================================
@@ -213,11 +213,11 @@ q2 <- glm(deaths ~ lalt + ldens + offset(off),  family = quasipoisson(), data = 
 fila_bw <- function(m, tm, mod, bw) {
   b <- coef(m)[tm]
   se <- if (is.na(bw)) sqrt(diag(vcov(m)))[tm] else sqrt(diag(conley(m, D2, bw)))[tm]
-  data.table(modelo = mod, ancho_km = ifelse(is.na(bw), "no correction", as.character(bw)),
+  data.table(model = mod, bandwidth_km = ifelse(is.na(bw), "no correction", as.character(bw)),
              beta = round(b, 4), SE = round(se, 4), MRR = round(exp(b*LN2), 3),
-             IC95_inf = round(exp((b - 1.96*se)*LN2), 3),
-             IC95_sup = round(exp((b + 1.96*se)*LN2), 3),
-             p = signif(2*pnorm(-abs(b/se)), 3))
+             CI95_lower = round(exp((b - 1.96*se)*LN2), 3),
+             CI95_upper = round(exp((b + 1.96*se)*LN2), 3),
+             p_value = signif(2*pnorm(-abs(b/se)), 3))
 }
 S <- rbindlist(c(
   lapply(list(NA, 100, 250, 500), function(bw) fila_bw(q1, "lalt",  "Model 1: altitude only", bw)),
@@ -233,21 +233,21 @@ ev <- geo[!is.na(analysis_ubigeo) & !is.na(analysis_date),
           .(victimas = .N), by = .(analysis_ubigeo, analysis_date)]
 ev <- merge(ev, alt[, .(analysis_ubigeo = UBIGEO, altitud)], by = "analysis_ubigeo", all.x = TRUE)
 ev[, estrato := altitude_stratum(altitud, ANALYSIS$altitude_breaks, ANALYSIS$altitude_labels)]
-ev[, sobre3500 := fifelse(estrato == ">3500", "Above 3500 m", "At or below 3500 m")]
-S1A <- ev[, .(eventos = .N, victimas = sum(victimas)), by = .(victimas_por_evento = victimas)][order(victimas_por_evento)]
-S1A[, `:=`(pct_eventos  = round(100*eventos/sum(eventos), 2),
-           pct_victimas = round(100*victimas/sum(victimas), 2), panel = "A_tamano_de_evento")]
-S1B <- ev[, .(eventos = .N, victimas = sum(victimas),
-              eventos_multivictima = sum(victimas > 1),
-              victimas_en_multivictima = sum(victimas[victimas > 1]),
-              victimas_por_evento_media = round(mean(victimas), 4),
-              max_victimas = max(victimas)), by = sobre3500][order(-eventos)]
+ev[, above_3500 := fifelse(estrato == ">3500", "Above 3500 m", "At or below 3500 m")]
+S1A <- ev[, .(events = .N, victims = sum(victimas)), by = .(victims_per_event = victimas)][order(victims_per_event)]
+S1A[, `:=`(pct_events  = round(100*events/sum(events), 2),
+           pct_victims = round(100*victims/sum(victims), 2), panel = "A_event_size")]
+S1B <- ev[, .(events = .N, victims = sum(victimas),
+              multivictim_events = sum(victimas > 1),
+              victims_in_multivictim_events = sum(victimas[victimas > 1]),
+              mean_victims_per_event = round(mean(victimas), 4),
+              max_victims = max(victimas)), by = above_3500][order(-events)]
 S1B <- rbind(S1B, data.table(
-  sobre3500 = "TOTAL", eventos = nrow(ev), victimas = sum(ev$victimas),
-  eventos_multivictima = ev[victimas > 1, .N],
-  victimas_en_multivictima = ev[victimas > 1, sum(victimas)],
-  victimas_por_evento_media = round(mean(ev$victimas), 4), max_victimas = max(ev$victimas)))
-S1B[, `:=`(pct_eventos_multiv = round(100*eventos_multivictima/eventos, 2), panel = "B_por_altitud")]
+  above_3500 = "TOTAL", events = nrow(ev), victims = sum(ev$victimas),
+  multivictim_events = ev[victimas > 1, .N],
+  victims_in_multivictim_events = ev[victimas > 1, sum(victimas)],
+  mean_victims_per_event = round(mean(ev$victimas), 4), max_victims = max(ev$victimas)))
+S1B[, `:=`(pct_multivictim_events = round(100*multivictim_events/events, 2), panel = "B_by_altitude")]
 write_csv_utf8(S1A, file.path(PATHS$tables, "24_event_size_distribution.csv"))
 write_csv_utf8(S1B, file.path(PATHS$tables, "25_events_by_altitude.csv"))
 

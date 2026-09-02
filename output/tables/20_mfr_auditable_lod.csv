@@ -1,4 +1,4 @@
-﻿fila,distritos,censurados,pct_cens,area,area_cens_pct,D_total,D_s,dens_raw,F_raw,MFR_raw,dens_lod,F_lod,MFR_lod,cambio_MFR_pct
+﻿row,districts,censored,pct_censored,area_km2,area_censored_pct,D_total,D_s,dens_raw,F_raw,MFR_raw,dens_lod,F_lod,MFR_lod,MFR_change_pct
 lowland (<500 m),309,106,34.3,608166,2,19,2.375,18.622,11325078,0.2097,18.637,11334591,0.2095,-0.1
 500-1500,214,41,19.2,213846,8.6,8,1,15.006,3209054,0.3116,15.072,3223184,0.3103,-0.42
 1500-2500,210,15,7.1,117097,3.7,12,1.5,9.85,1153440,1.3005,9.88,1156920,1.2965,-0.31

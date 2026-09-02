@@ -1,4 +1,4 @@
-﻿grupo,districts,area_km2,person_years,deaths,flashes_yr,density,n_censored,rate,ci_lo,ci_hi,MFR
+﻿group,districts,area_km2,person_years,deaths,flashes_yr,density,n_censored,rate,ci_lo,ci_hi,MFR
 "High-Andean stratum (>3,500 m)",723,244759,39181794,510,1929185,7.882,8,13.0162,11.911,14.1965,33.045
 "Intermediate strata (500-3,500 m)",859,435591,94963788,62,4746297,10.896,76,0.6529,0.5006,0.837,1.6329
 Lowland: Amazon lowland (<500 m),108,546820,16119821,15,11290615,20.648,0,0.9305,0.5208,1.5348,0.1661

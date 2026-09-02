@@ -1,4 +1,4 @@
-﻿variable,pesos,I,p_sim
+﻿variable,weights,I,p_sim
 Outcome: deaths (count),Queen,0.435097635779098,1e-04
 Outcome: crude rate,Queen,0.268754799336115,1e-04
 Outcome: SMR (obs/exp m1),Queen,0.0855007992353748,0.002

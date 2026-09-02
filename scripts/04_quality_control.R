@@ -30,11 +30,11 @@ extra <- rbindlist(list(
   }),
   recoger("22_poisson_vs_negbin_aic.csv", function(d) {
     data.table(indicator = c("negbin_theta_model1", "negbin_theta_model2"),
-               value_actual = c(d[modelo %like% "Model 1" & familia %like% "Negative", theta],
-                                d[modelo %like% "Model 2" & familia %like% "Negative", theta]))
+               value_actual = c(d[model %like% "Model 1" & family %like% "Negative", theta],
+                                d[model %like% "Model 2" & family %like% "Negative", theta]))
   }),
   recoger("16_moran_i.csv", function(d) {
-    g <- function(v, w) d[variable == v & pesos == w, I]
+    g <- function(v, w) d[variable == v & weights == w, I]
     data.table(
       indicator = c("moran_I_deaths_queen", "moran_I_deaths_knn8",
                     "moran_I_residuals_m2_queen", "moran_I_residuals_m2_knn8",
@@ -46,11 +46,11 @@ extra <- rbindlist(list(
                        g("Pearson residuals m1", "Queen")))
   }),
   recoger("28_subgroup_contrasts.csv", function(d) {
-    a <- d[comparacion %like% "Amazon"]; p <- d[comparacion %like% "Pacific"]
+    a <- d[comparison %like% "Amazon"]; p <- d[comparison %like% "Pacific"]
     data.table(
       indicator = c("RR_high_vs_amazon_lowland", "density_ratio_high_vs_amazon",
                     "mortality_flash_ratio_high_vs_amazon", "RR_high_vs_pacific_coast"),
-      value_actual = c(a$RR, a$razon_densidad, a$razon_MFR, p$RR))
+      value_actual = c(a$RR, a$density_ratio, a$MFR_ratio, p$RR))
   }),
   # The twelve terminal assertions enter by their stable identifier.
   recoger("27_terminal_checks.csv", function(d) d[, .(indicator, value_actual = value)])

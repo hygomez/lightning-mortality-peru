@@ -56,10 +56,10 @@ M <- merge(M, den[, .(UBIGEO, densidad, area_km2)], by = "UBIGEO", all.x = TRUE)
 f5_file <- file.path(PATHS$public_derived, "pixel_polygon_diagnostics.csv")
 if (file.exists(f5_file)) {
   f5 <- fread(f5_file, colClasses = list(character = "UBIGEO"))
-  M <- merge(M, f5[, .(UBIGEO, n_celdas)], by = "UBIGEO", all.x = TRUE)
+  M <- merge(M, f5[, .(UBIGEO, n_cells = n_celdas)], by = "UBIGEO", all.x = TRUE)
 } else {
-  M[, n_celdas := NA_integer_]
-  say("NOTICE: no pixel-polygon diagnostic; the n_celdas column is left empty (descriptive).")
+  M[, n_cells := NA_integer_]
+  say("NOTICE: no pixel-polygon diagnostic; the n_cells column is left empty (descriptive).")
 }
 
 M <- M[!is.na(person_years) & person_years > 0 & !is.na(altitud) & !is.na(densidad) & altitud > 0]
@@ -72,18 +72,18 @@ m1  <- glm(deaths ~ lalt + offset(off),            family = quasipoisson(), data
 m2a <- glm(deaths ~ lalt + ldens_a + offset(off),  family = quasipoisson(), data = M)
 m2b <- glm(deaths ~ lalt + ldens_b + offset(off),  family = quasipoisson(), data = M)
 
-M[, `:=`(tasa_cruda  = 1e6*deaths/person_years,
+M[, `:=`(crude_rate  = 1e6*deaths/person_years,
          res_m1  = residuals(m1,  type = "pearson"),
          res_m2a = residuals(m2a, type = "pearson"),
          res_m2b = residuals(m2b, type = "pearson"),
          dev_m1  = residuals(m1,  type = "deviance"),
          dev_m2b = residuals(m2b, type = "deviance"),
-         esperado_m1 = fitted(m1), esperado_m2b = fitted(m2b))]
-M[, SMR_m1 := fifelse(esperado_m1 > 0, deaths/esperado_m1, NA_real_)]
+         expected_m1 = fitted(m1), expected_m2b = fitted(m2b))]
+M[, SMR_m1 := fifelse(expected_m1 > 0, deaths/expected_m1, NA_real_)]
 
 PANEL <- M[, .(UBIGEO, lon, lat, altitud, densidad, area_km2, person_years, deaths,
-               estrato, n_celdas, tasa_cruda, res_m1, res_m2a, res_m2b,
-               dev_m1, dev_m2b, esperado_m1, SMR_m1)]
+               estrato, n_cells, crude_rate, res_m1, res_m2a, res_m2b,
+               dev_m1, dev_m2b, expected_m1, SMR_m1)]
 write_csv_utf8(PANEL, file.path(PATHS$tables, "15_district_spatial_panel.csv"))
 say(sprintf("Spatial panel: %d districts.", nrow(PANEL)))
 
@@ -131,7 +131,7 @@ say(sprintf("  mean neighbours: Queen %.3f | KNN-8 %d", mean(card(nb_q)), 8L))
 
 vars <- list(
   c("deaths",     "Outcome: deaths (count)"),
-  c("tasa_cruda", "Outcome: crude rate"),
+  c("crude_rate", "Outcome: crude rate"),
   c("SMR_m1",     "Outcome: SMR (obs/exp m1)"),
   c("res_m1",     "Pearson residuals m1"),
   c("res_m2a",    "Pearson residuals m2 (a) floor 0.01"),
@@ -148,7 +148,7 @@ for (wl in c("Queen", "KNN-8")) {
     y <- as.numeric(st_drop_geometry(g)[[v[1]]])
     mc <- moran.mc(y, W, nsim = MORAN_NSIM, zero.policy = TRUE)
     say(sprintf("  %-36s I=%8.5f  p=%.5f", v[2], as.numeric(mc$statistic), mc$p.value))
-    res[[length(res)+1]] <- data.table(variable = v[2], pesos = wl,
+    res[[length(res)+1]] <- data.table(variable = v[2], weights = wl,
                                        I = as.numeric(mc$statistic), p_sim = mc$p.value)
   }
   for (cv in list(c("log(altitud)", "Covariate: log(altitude)"),
@@ -157,7 +157,7 @@ for (wl in c("Queen", "KNN-8")) {
          else as.numeric(st_drop_geometry(g)$densidad)
     mc <- moran.mc(y, W, nsim = MORAN_NSIM, zero.policy = TRUE)
     say(sprintf("  %-36s I=%8.5f  p=%.5f", cv[2], as.numeric(mc$statistic), mc$p.value))
-    res[[length(res)+1]] <- data.table(variable = cv[2], pesos = wl,
+    res[[length(res)+1]] <- data.table(variable = cv[2], weights = wl,
                                        I = as.numeric(mc$statistic), p_sim = mc$p.value)
   }
 }
@@ -168,11 +168,11 @@ write_csv_utf8(MORAN, file.path(PATHS$tables, "16_moran_i.csv"))
 py_file <- file.path(PATHS$public_derived, "moran_python_reference.csv")
 if (file.exists(py_file)) {
   PY <- fread(py_file)
-  CMP <- merge(MORAN, PY[, .(variable, pesos, I_py = I, p_py = p_sim)],
-               by = c("variable", "pesos"))
+  CMP <- merge(MORAN, PY[, .(variable, weights, I_py = I, p_py = p_sim)],
+               by = c("variable", "weights"))
   if (nrow(CMP)) {
-    CMP[, `:=`(dif_I = I - I_py, dif_rel_pct = 100*(I - I_py)/I_py)]
-    say(sprintf("R vs Python: maximum absolute difference in I = %.3e", max(abs(CMP$dif_I))))
+    CMP[, `:=`(diff_I = I - I_py, diff_rel_pct = 100*(I - I_py)/I_py)]
+    say(sprintf("R vs Python: maximum absolute difference in I = %.3e", max(abs(CMP$diff_I))))
     write_csv_utf8(CMP, file.path(PATHS$tables, "16b_moran_r_vs_python.csv"))
   }
 } else {
@@ -209,10 +209,10 @@ conley_vcov <- function(m, dist, cutoff, kernel = c("bartlett", "uniform")) {
 fila <- function(m, V, etiqueta, termino, n) {
   b <- coef(m)[termino]; se <- sqrt(diag(V))[termino]
   z <- b/se; p <- 2*pnorm(-abs(z))
-  data.table(especificacion = etiqueta,
-             parametro = ifelse(termino == "lalt", "Altitude", "Flash density"),
+  data.table(specification = etiqueta,
+             parameter = ifelse(termino == "lalt", "Altitude", "Flash density"),
              n = n, beta = b, SE = se, IRR = exp(b*LN2),
-             IC95_inf = exp((b - 1.96*se)*LN2), IC95_sup = exp((b + 1.96*se)*LN2),
+             CI95_lower = exp((b - 1.96*se)*LN2), CI95_upper = exp((b + 1.96*se)*LN2),
              p_value = p)
 }
 q1  <- glm(deaths ~ lalt + offset(off),           family = quasipoisson(), data = D)
@@ -227,23 +227,23 @@ bloque <- function(m, termino) {
     r[[length(r)+1]] <- fila(m, conley_vcov(m, D2, co), sprintf("Conley Bartlett %d km", co), termino, nrow(D))
   rbindlist(r)
 }
-R1  <- bloque(q1,  "lalt");    R1[,  modelo := "Model 1: altitude only"]
-R2a <- bloque(q2b, "lalt");    R2a[, modelo := "Model 2: altitude"]
-R2b <- bloque(q2b, "ldens_b"); R2b[, modelo := "Model 2: flash density"]
+R1  <- bloque(q1,  "lalt");    R1[,  model := "Model 1: altitude only"]
+R2a <- bloque(q2b, "lalt");    R2a[, model := "Model 2: altitude"]
+R2b <- bloque(q2b, "ldens_b"); R2b[, model := "Model 2: flash density"]
 CONLEY <- rbind(R1, R2a, R2b)
 write_csv_utf8(CONLEY, file.path(PATHS$tables, "17_conley_robust_se.csv"))
 
-for (nm in unique(CONLEY$modelo)) {
+for (nm in unique(CONLEY$model)) {
   say(sprintf("--- %s ---", nm))
-  b <- CONLEY[modelo == nm]
+  b <- CONLEY[model == nm]
   for (i in seq_len(nrow(b)))
-    with(b[i], say(sprintf("  %-34s beta=%8.5f SE=%8.5f IRR=%7.3f  IC95 %6.3f - %-8.3f p=%.3g",
-                           especificacion, beta, SE, IRR, IC95_inf, IC95_sup, p_value)))
+    with(b[i], say(sprintf("  %-34s beta=%8.5f SE=%8.5f IRR=%7.3f  CI95 %6.3f - %-8.3f p=%.3g",
+                           specification, beta, SE, IRR, CI95_lower, CI95_upper, p_value)))
 }
 say(sprintf("Altitude, Model 1: lower 95%% CI from %.3f to %.3f; all exclude 1? %s",
-            min(R1$IC95_inf), max(R1$IC95_inf), all(R1$IC95_inf > 1)))
+            min(R1$CI95_lower), max(R1$CI95_lower), all(R1$CI95_lower > 1)))
 say(sprintf("Altitude, Model 2: lower 95%% CI from %.3f to %.3f; all exclude 1? %s",
-            min(R2a$IC95_inf), max(R2a$IC95_inf), all(R2a$IC95_inf > 1)))
+            min(R2a$CI95_lower), max(R2a$CI95_lower), all(R2a$CI95_lower > 1)))
 
 writeLines(log_lines, file.path(PATHS$logs, "06_spatial_diagnostics.log"), useBytes = TRUE)
 cat("Spatial diagnostics complete.\n")

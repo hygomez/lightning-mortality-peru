@@ -1,4 +1,4 @@
-﻿modelo,ancho_km,beta,SE,MRR,IC95_inf,IC95_sup,p
+﻿model,bandwidth_km,beta,SE,MRR,CI95_lower,CI95_upper,p_value
 Model 1: altitude only,no correction,2.7683,0.7258,6.813,2.542,18.263,0.000137
 Model 1: altitude only,100,2.7683,0.7209,6.813,2.559,18.142,0.000123
 Model 1: altitude only,250,2.7683,0.9438,6.813,1.89,24.559,0.00335

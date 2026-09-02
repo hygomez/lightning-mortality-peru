@@ -60,20 +60,20 @@ M <- merge(alt[, .(UBIGEO, altitud)], den[, .(UBIGEO, densidad, area_km2)], by =
 M <- M[!is.na(altitud) & !is.na(densidad) & altitud > 0]
 M[, estrato := altitude_stratum(altitud, ANALYSIS$altitude_breaks, ANALYSIS$altitude_labels)]
 M[, dep := substr(UBIGEO, 1, 2)]
-M[, macro := fifelse(estrato != LOWLAND_LABEL, paste("Stratum", estrato),
+M[, macroregion := fifelse(estrato != LOWLAND_LABEL, paste("Stratum", estrato),
               fifelse(dep %in% PACIFIC_DEPARTMENTS, "Pacific coast (<500 m)",
                                                     "Amazon lowland (<500 m)"))]
-MR <- M[, .(distritos = .N, area_km2 = round(sum(area_km2), 1),
-            flashes_yr = round(sum(densidad*area_km2), 1),
+MR <- M[, .(districts = .N, area_km2 = round(sum(area_km2), 1),
+            flashes_per_year = round(sum(densidad*area_km2), 1),
             area_weighted_density = round(sum(densidad*area_km2)/sum(area_km2), 4)),
-        by = macro][order(-area_weighted_density)]
+        by = macroregion][order(-area_weighted_density)]
 print(MR)
 write_csv_utf8(MR, file.path(PATHS$tables, "26_density_by_macroregion.csv"))
 anota("C2", "check_amazon_density_rank", "The Amazon leads area-weighted flash density",
       "rank of the Amazon lowland (1 = highest)",
-      which(MR$macro == "Amazon lowland (<500 m)"), 1)
+      which(MR$macroregion == "Amazon lowland (<500 m)"), 1)
 anota("C2", "check_amazon_area_weighted_density", "Amazon lowland flash density", "flashes km-2 year-1",
-      MR[macro == "Amazon lowland (<500 m)", area_weighted_density], 20.648, tol = 0.01)
+      MR[macroregion == "Amazon lowland (<500 m)", area_weighted_density], 20.648, tol = 0.01)
 
 # --- C3 -----------------------------------------------------------------------
 cat("C3  Back-extrapolation of 2017\n")
