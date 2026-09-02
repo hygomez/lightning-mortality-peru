@@ -7,7 +7,7 @@ C3,check_high_rate_reconstructed_2017,Tasa >3500 m con el 2017 reconstruido,por 
 C3,check_high_rate_2017_equals_2018,Tasa >3500 m fijando 2017 = 2018,por millon de personas-anio,13.0098960922558,13.0099,0.01,PASS
 C3,check_backextrapolation_impact_pct,Variacion relativa entre ambos escenarios,% de cambio en la tasa,0.0488103601565586,0.05,0.02,PASS
 C4,check_knn_polygons_compared,Poligonos comparados,n distritos,1891,1891,0.001,PASS
-C4,check_knn_mean_point_distance_km,Distancia media centroide vs punto-en-superficie,km,2.41444830896806,2.44,0.15,PASS
-C4,check_knn_districts_over_1km,Distritos que difieren en mas de 1 km,n distritos,1206,1213,25,PASS
+C4,check_knn_mean_point_distance_km,Distancia media centroide vs punto-en-superficie (geodesica),km,2.41444830896806,2.4144,0.01,PASS
+C4,check_knn_districts_over_1km,Distritos que difieren en mas de 1 km (geodesica),n distritos,1206,1206,3,PASS
 C5,check_pacific_coast_deaths,Muertes en la costa del Pacifico (<500 m),muertes,4,4,0.001,PASS
 C5,check_RR_high_vs_merged_coast,Razon de tasas >3500 m vs costa fusionada,RR,362.064912109099,362.06,1.5,PASS

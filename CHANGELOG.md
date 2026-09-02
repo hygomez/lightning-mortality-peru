@@ -114,6 +114,16 @@ choice**: the altitude gradient holds under all five treatments of the censoring
 - Districts discarded for lacking a denominator are now **announced**, and the
   number of deaths falling in them is counted and warned about if non-zero
   (REP-007). It is zero.
+- **The KNN representative-point distance now declares its metric.** The August
+  verification report measured centroid-to-point-on-surface distance **in the
+  lon/lat plane** and published 2.44 km mean, 1,213 districts over 1 km.
+  `scripts/08_terminal_checks.R` measures it **on the ellipsoid** (geodesic) and
+  gets 2.414 km and 1,206 districts. Both are correct under their own definition;
+  the geodesic is sealed because it is the one with real units. The report keeps
+  its figures and gains a note stating its metric. The substantive point is
+  unaffected either way: the representative point shifts neighbourhoods by
+  kilometres, which is why the main specification is Queen contiguity, invariant
+  to that choice.
 
 ### Fixed - public export could ship the district-date line list (REP-016)
 
