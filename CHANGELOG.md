@@ -224,6 +224,13 @@ is not checking what it publishes.
 - **`renv.lock` and `session-info.txt` are now in the repository**, sealing the
   10 declared dependencies and 42 packages including transitive ones.
 
+### Archived
+
+- Software v2.0.0: `10.5281/zenodo.22258022` (concept DOI
+  `10.5281/zenodo.21764485`, which always resolves to the latest version).
+- The aggregate dataset v2.0.0 is uploaded separately as a new version of deposit
+  `10.5281/zenodo.21764558`.
+
 ### Known behaviour - not a defect
 
 **Fifteen rows of `11_district_rates_complete.csv` differ in the last significant

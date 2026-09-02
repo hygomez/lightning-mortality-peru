@@ -4,6 +4,9 @@
 
 **Software (concept DOI, always resolves to the latest version):** https://doi.org/10.5281/zenodo.21764485
 **Aggregate dataset (concept DOI, always resolves to the latest version):** https://doi.org/10.5281/zenodo.21764558
+
+Current archived release: **v2.0.0**, https://doi.org/10.5281/zenodo.22258022 (2026-09-02).
+Cite the concept DOI above unless a statement must refer to this specific version.
 **GitHub:** https://github.com/hygomez/lightning-mortality-peru
 
 **Public reproducible repository, version 1.0.0**
