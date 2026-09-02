@@ -1,7 +1,12 @@
 options(stringsAsFactors = FALSE, warn = 1)
 source("R/functions.R")
 ROOT <- repo_root(); setwd(ROOT); source("config/config.R")
-ensure_packages("data.table")
+# `zip` se declara aqui aunque solo se use al final del script. Sin declararlo, la
+# ausencia del paquete no se detectaba en la linea 4 sino a mitad de ejecucion, con
+# un error de la libreria sobre un archivo que no podia abrir en vez de un
+# "Missing R packages: zip". Es la diferencia entre un fallo diagnostico y uno
+# criptico, y es la razon por la que este hueco sobrevivio a la v1.0.0.
+ensure_packages(c("data.table", "zip"))
 suppressPackageStartupMessages(library(data.table))
 
 qc_file <- file.path(PATHS$qc, "qc_report.csv")

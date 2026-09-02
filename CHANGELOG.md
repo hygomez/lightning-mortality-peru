@@ -185,6 +185,45 @@ inference - that one 3-victim event occurred above 3,500 m - is not attributable
 21 districts above 3,500 m have exactly 3 deaths, and a district total of three is
 equally consistent with one triple event or three unrelated deaths.
 
+### Fixed - run_all.R exercised 58 % of the code (REP-017)
+
+The repository contains **19 executable files**. `run_all.R` ran **11 of them**.
+Several of the remaining eight had never been executed at all.
+
+Every serious defect found while preparing this release was in code that
+`run_all.R` did not reach, or on a path that was never taken:
+
+| Defect | Why it went unnoticed |
+|---|---|
+| The district-date line list reaching the public package (REP-016) | `05_export_public_release.R` had never run: the `zip` package was missing, so it aborted before reaching the filter |
+| `normalizePath()` on a not-yet-existing file | Same script, after the point where it died |
+| `meta_value()` looking up a `key` column that never existed | `90_finalize_metadata.R` was outside `run_all.R` and could not run against its own metadata |
+| `CITATION.cff` and `.zenodo.json` drifting from their generator | Maintained by hand because the generator was broken |
+| `repository_manifest.csv` stale in 63 of 80 entries | No script produced it |
+| **No `renv.lock` in the repository at all** | `99_freeze_environment.R` was outside `run_all.R` and had never run, although `docs/REPRODUCIBILITY.md` promised the file |
+| A lockfile that omits dependencies and still exits 0 | Hardcoded package list, and it warned instead of failing |
+| Tests that pass and nobody runs | `tests/test_case_definition.R` was outside `run_all.R` |
+
+A script that is never executed is not code, it is an intention. A reproducibility
+deposit whose entry point excludes the script that builds the publishable package
+is not checking what it publishes.
+
+**Fixed:**
+
+- `05_export_public_release.R` now declares `zip` in `ensure_packages`, so its
+  absence is reported on line 4 rather than mid-run as a library error.
+- `99_freeze_environment.R` **derives** its dependency set from the
+  `ensure_packages()` declarations of every script, instead of a hardcoded list
+  that goes stale, and **fails** rather than warning when a declared dependency is
+  not installed or does not reach the lockfile. It verifies what was written, not
+  what was requested.
+- `run_all.R` now ends with `tests/test_case_definition.R`,
+  `90_finalize_metadata.R` and `99_freeze_environment.R`. It exercises 14 of the
+  19 executables; the remaining five are manual utilities that fail cleanly and
+  diagnostically when their input or environment variable is absent.
+- **`renv.lock` and `session-info.txt` are now in the repository**, sealing the
+  10 declared dependencies and 42 packages including transitive ones.
+
 ### Known behaviour - not a defect
 
 **Fifteen rows of `11_district_rates_complete.csv` differ in the last significant

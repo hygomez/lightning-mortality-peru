@@ -4,7 +4,7 @@
 .gitignore,1058,f59f11c8461015c480ea60bb3f182332
 .zenodo.json,2636,54034417b75771677b0abb5680d28f57
 AUTHORS_AND_AFFILIATIONS.md,2269,c05eae57bac19ce7d2a650a06a34bfe0
-CHANGELOG.md,12210,57f7d3cd7b753edf30402cad113c63a9
+CHANGELOG.md,14760,036f54c68b894b8f6a98c75ae7900c02
 CITATION.cff,2654,6289376a101decf91dd301bdea7b3315
 DATA_LICENSE.md,666,ed4616df292aba9a3f0bd5e8c67b84f7
 LICENSE,1068,964b7573d4c33843a4b122a6286d4b27
@@ -59,7 +59,7 @@ output/figures/manuscript/Fig4.eps,13395,ba754dd59021b2c30e22b0242e492254
 output/figures/manuscript/Fig4.tif,1537252,c0fdb281d1d28334dad929e3c1b0623c
 output/logs/.gitkeep,0,d41d8cd98f00b204e9800998ecf8427e
 output/qc/qc_report.csv,4126,66c3780193eaadaed2321522b3109900
-output/qc/qc_summary.txt,4080,b52c6f47ac43aab9e5d78b5173ddd831
+output/qc/qc_summary.txt,4080,731b8072de80dfaf8623732dfcc54de8
 output/tables/01_mortality_by_altitude.csv,483,d56d57dd79ff2b6cdf34c8afeda3ba6b
 output/tables/02_rate_ratios.csv,179,6912f0bc429ad55b678ee9cf29c03beb
 output/tables/03_density_and_mortality_to_flashes.csv,775,3117fb0a6c550d64e70c3403a26e15aa
@@ -101,12 +101,12 @@ scripts/01_rebuild_lightning_density_optional.R,1838,d7ace88beb9a2b644c9f6bab30a
 scripts/02_run_analysis.R,23989,b037fcae283168e08a3063e899e43961
 scripts/03_make_district_map.R,2148,4b6eb9547263a1c6ee94ab17985aa3a4
 scripts/04_quality_control.R,7985,8c0f913835544ea3adbeee53a9ef157d
-scripts/05_export_public_release.R,6565,468df39847cff8524d5b33ea63b8e5f1
+scripts/05_export_public_release.R,6968,fec12dfb71d619df19391329667ad216
 scripts/06_spatial_diagnostics.R,12519,16ddc59f04609b6cb4d5c50256fee7a9
 scripts/07_sensitivity_specifications.R,15157,acbee33b6bcc9aaa96894c46232f117a
 scripts/08_terminal_checks.R,8691,50af20992d0e0afcf4310697207c246b
 scripts/09_figures_manuscript.R,7554,4e00776433d10a461c5bb6c807b5d000
 scripts/90_finalize_metadata.R,5086,441af600be249098406c70373197cd1f
-scripts/99_freeze_environment.R,488,4540c0506f6f541eff6345135cb0a296
-scripts/run_all.R,1075,da81bc54fccc2edeadf4623df123e3ac
+scripts/99_freeze_environment.R,3646,fab36d831a738a1cf8948dbe3fababc8
+scripts/run_all.R,1755,eaeda77ee84f2ad94357514aaf7fdf2f
 tests/test_case_definition.R,605,0add87dac658a1739f796dd3b95753f6
