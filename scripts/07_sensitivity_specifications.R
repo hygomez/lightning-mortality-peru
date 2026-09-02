@@ -1,19 +1,19 @@
 # =============================================================================
-# 07_sensitivity_specifications.R  -- Especificaciones y sensibilidad (v2.0.0)
+# 07_sensitivity_specifications.R  -- Specifications and sensitivity (v2.0.0)
 #
-# Porta al deposito lo que vivia fuera de el (F9, F3b, F3_final):
+# Ports into the deposit what lived outside it (F9, F3b, F3_final):
 #
-#   1. Regla operacional de subgrupos del estrato lowland (11 departamentos)
-#   2. Tabla 1b: subgrupos con IC exactos de Poisson
-#   3. Tabla 2: MFR auditable, ceros crudos y LOD lado a lado
-#   4. Cinco tratamientos de la censura de densidad (LODx5)
-#   5. Poisson frente a binomial negativa, por AIC
-#   6. Sensibilidad al ancho de banda del nucleo de Conley
-#   7. Tablas agregadas de eventos (S1), sin fechas ni distritos
+#   1. Operational subgroup rule for the lowland stratum (11 departments)
+#   2. Table 1b: subgroups with exact Poisson confidence intervals
+#   3. Table 2: auditable mortality-to-flash ratio, raw zeros and LOD side by side
+#   4. Five treatments of density censoring (LOD x5)
+#   5. Poisson against negative binomial, by AIC
+#   6. Sensitivity to the Conley kernel bandwidth
+#   7. Aggregate event tables (S1), with no dates or districts
 #
-# La regla de los 11 departamentos NO estaba en ningun script: se habia ejecutado
-# en linea. Es la que sostiene la comparacion del titulo, de modo que su ausencia
-# era el hueco de trazabilidad mas grave del deposito.
+# The eleven-department rule was in NO script: it had been run at a console. It is
+# what sustains the comparison in the title, so its absence was the largest
+# traceability gap in the deposit.
 # =============================================================================
 
 options(stringsAsFactors = FALSE, warn = 1)
@@ -47,25 +47,25 @@ M[, estrato := altitude_stratum(altitud, ANALYSIS$altitude_breaks, ANALYSIS$alti
 M[, dep := substr(UBIGEO, 1, 2)]
 M[, `:=`(fl_raw = densidad*area_km2,
          fl_lod = pmax(densidad, LOD_FLASH_DENSITY)*area_km2)]
-say(sprintf("Panel: %d distritos, %d muertes.", nrow(M), sum(M$deaths)))
+say(sprintf("Panel: %d districts, %d deaths.", nrow(M), sum(M$deaths)))
 
 # =============================================================================
-# 1. Regla operacional de subgrupos del estrato lowland
+# 1. Operational subgroup rule for the lowland stratum
 # =============================================================================
 M[, subgrupo := fifelse(estrato != LOWLAND_LABEL, NA_character_,
                  fifelse(dep %in% PACIFIC_DEPARTMENTS, "Pacific coast", "Amazon lowland"))]
 REGLA <- M[!is.na(subgrupo), .(districts = .N), by = .(subgrupo, dep, DEPARTAMEN)][order(subgrupo, dep)]
 write_csv_utf8(REGLA, file.path(PATHS$tables, "18_lowland_subgroup_rule.csv"))
-say("=== REGLA DE SUBGRUPOS (aplicada por exclusion) ===")
+say("=== SUBGROUP RULE (applied by exclusion) ===")
 for (g in unique(REGLA$subgrupo)) {
   x <- REGLA[subgrupo == g]
-  say(sprintf("%s: %d distritos en %d departamentos", g, sum(x$districts), nrow(x)))
+  say(sprintf("%s: %d districts in %d departments", g, sum(x$districts), nrow(x)))
   say(paste0("   ", paste(sprintf("%s (%s, n=%d)", x$DEPARTAMEN, x$dep, x$districts), collapse = "; ")))
 }
 stopifnot(M[estrato == LOWLAND_LABEL & is.na(subgrupo), .N] == 0L)
 
 # =============================================================================
-# 2. Tabla 1b: subgrupos con IC exactos de Poisson
+# 2. Table 1b: subgroups with exact Poisson confidence intervals
 # =============================================================================
 M[, grupo := fifelse(estrato == ">3500", "High-Andean stratum (>3,500 m)",
              fifelse(estrato != LOWLAND_LABEL, "Intermediate strata (500-3,500 m)",
@@ -86,13 +86,13 @@ T1b <- T1b[match(ord, grupo)]
 write_csv_utf8(T1b, file.path(PATHS$tables, "19_lowland_subgroups_ci.csv"))
 
 # =============================================================================
-# 2b. Contrastes separados: el estrato alto frente a CADA subgrupo del lowland
+# 2b. Separate contrasts: the high stratum against EACH lowland subgroup
 #
-# Fusionar los dos subgrupos en un solo "0-500 m" promedia dos regiones opuestas:
-# la llanura amazonica, que es la de mayor densidad del pais, y la costa del
-# Pacifico, que es la de menor. El contraste con la Amazonia es el que sostiene
-# el titulo -- mas mortalidad donde MENOS rayos caen no seria noticia; la noticia
-# es que ocurre frente a la region que MAS recibe.
+# Merging the two subgroups into a single "0-500 m" averages two opposite regions:
+# the Amazon lowlands, which have the highest flash density in the country, and the
+# Pacific coast, which has the lowest. The contrast with the Amazon is the one that
+# sustains the title -- higher mortality where FEWER flashes fall would not be
+# notable; what is notable is that it holds against the region receiving the MOST.
 # =============================================================================
 contraste <- function(etiqueta, sub) {
   d1 <- M[estrato == ">3500"]
@@ -110,13 +110,13 @@ CONTR <- rbind(
   contraste(">3500 m vs Pacific coast (<500 m)",
             M[estrato == LOWLAND_LABEL &  dep %in% PACIFIC_DEPARTMENTS]))
 write_csv_utf8(CONTR, file.path(PATHS$tables, "28_subgroup_contrasts.csv"))
-say("=== CONTRASTES SEPARADOS ===")
+say("=== SEPARATE CONTRASTS ===")
 for (i in seq_len(nrow(CONTR)))
-  with(CONTR[i], say(sprintf("  %-38s RR %9.3f (%.2f-%.2f)  densidad %.4f x  MFR %.2f x",
+  with(CONTR[i], say(sprintf("  %-38s RR %9.3f (%.2f-%.2f)  density %.4f x  MFR %.2f x",
                              comparacion, RR, IC_inf, IC_sup, razon_densidad, razon_MFR)))
 
 # =============================================================================
-# 3. Tabla 2: MFR auditable -- ceros crudos y LOD lado a lado
+# 3. Table 2: auditable MFR -- raw zeros and LOD side by side
 # =============================================================================
 grp <- function(d, lab) data.table(
   fila = lab, distritos = nrow(d), censurados = sum(d$densidad == 0),
@@ -133,20 +133,20 @@ G <- rbindlist(c(
        grp(M[estrato == LOWLAND_LABEL &  dep %in% PACIFIC_DEPARTMENTS], "  Pacific coast (<500 m)"))))
 G[, cambio_MFR_pct := round(100*(MFR_lod - MFR_raw)/MFR_raw, 2)]
 write_csv_utf8(G, file.path(PATHS$tables, "20_mfr_auditable_lod.csv"))
-say("=== TABLA 2: efecto del LOD sobre el MFR (%) ===")
+say("=== TABLE 2: effect of the LOD on the MFR (%) ===")
 for (i in seq_len(nrow(G))) with(G[i], say(sprintf("  %-28s cens %5.1f%%  MFR %9.4f -> %9.4f  (%+6.2f %%)",
                                                    fila, pct_cens, MFR_raw, MFR_lod, cambio_MFR_pct)))
 
 # =============================================================================
-# 4. Cinco tratamientos de la censura de densidad
+# 4. Five treatments of density censoring
 # =============================================================================
 M[, `:=`(lalt = log(altitud), off = log(py/1e6))]
 especs <- list(
-  list(id = "(a) piso arbitrario 0,01",    piso = 0.01,                       dat = "todos"),
-  list(id = "LOD/2 = 0,2064",              piso = LOD_FLASH_DENSITY/2,        dat = "todos"),
-  list(id = "LOD/raiz(2) = 0,2919",        piso = LOD_FLASH_DENSITY/sqrt(2),  dat = "todos"),
-  list(id = "LOD = 0,4128  [PRINCIPAL]",   piso = LOD_FLASH_DENSITY,          dat = "todos"),
-  list(id = "(c) exclusion de censurados", piso = 0.01,                       dat = "nocens"))
+  list(id = "(a) arbitrary floor 0.01",    piso = 0.01,                       dat = "all"),
+  list(id = "LOD/2 = 0.2064",              piso = LOD_FLASH_DENSITY/2,        dat = "all"),
+  list(id = "LOD/sqrt(2) = 0.2919",        piso = LOD_FLASH_DENSITY/sqrt(2),  dat = "all"),
+  list(id = "LOD = 0.4128  [MAIN]",        piso = LOD_FLASH_DENSITY,          dat = "all"),
+  list(id = "(c) censored excluded",       piso = 0.01,                       dat = "nocens"))
 filas <- list()
 for (e in especs) {
   d <- if (e$dat == "nocens") M[densidad > 0] else copy(M)
@@ -157,7 +157,7 @@ for (e in especs) {
     b <- z[tm, 1]; se <- z[tm, 2]
     filas[[length(filas)+1]] <- data.table(
       especificacion = e$id, n = nrow(d),
-      parametro = ifelse(tm == "lalt", "Altitud", "Densidad"),
+      parametro = ifelse(tm == "lalt", "Altitude", "Flash density"),
       beta = b, SE = se, IRR = exp(b*LN2),
       IC95_inf = exp((b - 1.96*se)*LN2), IC95_sup = exp((b + 1.96*se)*LN2),
       p_value = z[tm, 4], dispersion = summary(m)$dispersion, muertes = sum(d$deaths))
@@ -165,12 +165,12 @@ for (e in especs) {
 }
 LODT <- rbindlist(filas)
 write_csv_utf8(LODT, file.path(PATHS$tables, "21_lod_five_specifications.csv"))
-a <- LODT[parametro == "Altitud"]
-say(sprintf("IRR de altitud en las cinco especificaciones: %.3f a %.3f; todos los IC excluyen 1: %s",
+a <- LODT[parametro == "Altitude"]
+say(sprintf("Altitude IRR across the five specifications: %.3f to %.3f; all CIs exclude 1: %s",
             min(a$IRR), max(a$IRR), all(a$IC95_inf > 1)))
 
 # =============================================================================
-# 5. Poisson frente a binomial negativa (AIC)
+# 5. Poisson against negative binomial (AIC)
 # =============================================================================
 M[, ldens := log(pmax(densidad, LOD_FLASH_DENSITY))]
 nb_rob <- function(f) {
@@ -187,15 +187,15 @@ f1 <- deaths ~ lalt + offset(off); f2 <- deaths ~ lalt + ldens + offset(off)
 po1 <- glm(f1, family = poisson(), data = M); po2 <- glm(f2, family = poisson(), data = M)
 nb1 <- nb_rob(f1); nb2 <- nb_rob(f2)
 AJ <- data.table(
-  modelo  = rep(c("Modelo 1: altitud sola", "Modelo 2: altitud + densidad"), each = 2),
-  familia = rep(c("Poisson", "Binomial negativa"), 2),
+  modelo  = rep(c("Model 1: altitude only", "Model 2: altitude + flash density"), each = 2),
+  familia = rep(c("Poisson", "Negative binomial"), 2),
   AIC = round(c(AIC(po1), AIC(nb1), AIC(po2), AIC(nb2)), 1),
   theta = c(NA, round(nb1$theta, 4), NA, round(nb2$theta, 4)))
 AJ[, ventaja_AIC_NB := c(NA, round(AIC(po1) - AIC(nb1), 0), NA, round(AIC(po2) - AIC(nb2), 0))]
 write_csv_utf8(AJ, file.path(PATHS$tables, "22_poisson_vs_negbin_aic.csv"))
 
 # =============================================================================
-# 6. Sensibilidad al ancho de banda del nucleo de Conley
+# 6. Sensitivity to the Conley kernel bandwidth
 # =============================================================================
 hav <- function(lon, lat) {
   R <- 6371; la <- lat*pi/180; lo <- lon*pi/180
@@ -213,27 +213,27 @@ q2 <- glm(deaths ~ lalt + ldens + offset(off),  family = quasipoisson(), data = 
 fila_bw <- function(m, tm, mod, bw) {
   b <- coef(m)[tm]
   se <- if (is.na(bw)) sqrt(diag(vcov(m)))[tm] else sqrt(diag(conley(m, D2, bw)))[tm]
-  data.table(modelo = mod, ancho_km = ifelse(is.na(bw), "sin correccion", as.character(bw)),
+  data.table(modelo = mod, ancho_km = ifelse(is.na(bw), "no correction", as.character(bw)),
              beta = round(b, 4), SE = round(se, 4), MRR = round(exp(b*LN2), 3),
              IC95_inf = round(exp((b - 1.96*se)*LN2), 3),
              IC95_sup = round(exp((b + 1.96*se)*LN2), 3),
              p = signif(2*pnorm(-abs(b/se)), 3))
 }
 S <- rbindlist(c(
-  lapply(list(NA, 100, 250, 500), function(bw) fila_bw(q1, "lalt",  "Modelo 1: altitud sola", bw)),
-  lapply(list(NA, 100, 250, 500), function(bw) fila_bw(q2, "lalt",  "Modelo 2: altitud ajustada", bw)),
-  lapply(list(NA, 100, 250, 500), function(bw) fila_bw(q2, "ldens", "Modelo 2: densidad", bw))))
+  lapply(list(NA, 100, 250, 500), function(bw) fila_bw(q1, "lalt",  "Model 1: altitude only", bw)),
+  lapply(list(NA, 100, 250, 500), function(bw) fila_bw(q2, "lalt",  "Model 2: adjusted altitude", bw)),
+  lapply(list(NA, 100, 250, 500), function(bw) fila_bw(q2, "ldens", "Model 2: flash density", bw))))
 write_csv_utf8(S, file.path(PATHS$tables, "23_conley_bandwidth_sensitivity.csv"))
-say("El MRR es identico en los cuatro anchos: el coeficiente no depende del estimador de varianza.")
+say("The MRR is identical across the four bandwidths: the coefficient does not depend on the variance estimator.")
 
 # =============================================================================
-# 7. Tablas agregadas de eventos (sin fechas ni distritos)
+# 7. Aggregate event tables (no dates, no districts)
 # =============================================================================
 ev <- geo[!is.na(analysis_ubigeo) & !is.na(analysis_date),
           .(victimas = .N), by = .(analysis_ubigeo, analysis_date)]
 ev <- merge(ev, alt[, .(analysis_ubigeo = UBIGEO, altitud)], by = "analysis_ubigeo", all.x = TRUE)
 ev[, estrato := altitude_stratum(altitud, ANALYSIS$altitude_breaks, ANALYSIS$altitude_labels)]
-ev[, sobre3500 := fifelse(estrato == ">3500", "Sobre 3500 m", "Igual o debajo de 3500 m")]
+ev[, sobre3500 := fifelse(estrato == ">3500", "Above 3500 m", "At or below 3500 m")]
 S1A <- ev[, .(eventos = .N, victimas = sum(victimas)), by = .(victimas_por_evento = victimas)][order(victimas_por_evento)]
 S1A[, `:=`(pct_eventos  = round(100*eventos/sum(eventos), 2),
            pct_victimas = round(100*victimas/sum(victimas), 2), panel = "A_tamano_de_evento")]
@@ -252,4 +252,4 @@ write_csv_utf8(S1A, file.path(PATHS$tables, "24_event_size_distribution.csv"))
 write_csv_utf8(S1B, file.path(PATHS$tables, "25_events_by_altitude.csv"))
 
 writeLines(log_lines, file.path(PATHS$logs, "07_sensitivity_specifications.log"), useBytes = TRUE)
-cat("Especificaciones y sensibilidad completas.\n")
+cat("Specifications and sensitivity complete.\n")

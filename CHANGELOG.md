@@ -55,11 +55,12 @@ Because φ scales the standard errors, this is where the inference changes:
 | β flash density | 0.9063378 (SE 0.3336838) | **1.0071224** (SE 0.1241976) |
 | MRR per doubling of flash density | 1.874 | **2.010** |
 
-The point estimates barely move — about 1 % and 11 %. What moves is the precision,
-and it moves because the model stopped being asked to accommodate 190 impossible
-values. This is why the change is reported as a correction: the v1.0.0 floor was
-not a conservative choice, it was an artefact that inflated the very quantity used
-to build the confidence intervals.
+The point estimates move by about 1 % and 11 %. What changes is the precision, and
+it changes because the model is no longer fitting 190 districts placed 3.7 log
+units below the instrument's detection limit. The change is reported as a
+correction rather than a preference because the 0.01 floor was not conservative:
+it raised the dispersion parameter that scales the standard errors, from 3.77 to
+28.71.
 
 The two readings are published side by side in `20_mfr_auditable_lod.csv` so the
 claim can be audited. At stratum level the difference is negligible (−0.02 % to
@@ -82,9 +83,9 @@ choice**: the altitude gradient holds under all five treatments of the censoring
   files (TIFF 1200 dpi, EPS, 174 mm wide, no caption inside the image).
 - `docs/SUBGROUP_RULE.md` - the eleven-department rule, which existed nowhere in
   version 1.0.0.
-- `docs/METHODS_GEOSPATIAL.md` - English reference for the geospatial decisions
-  that affect published figures. The complete working document, with all
-  diagnostic tables, is `docs/METHODS_GEOSPATIAL_ES.md` (Spanish).
+- `docs/METHODS_GEOSPATIAL.md` - geospatial methods: pixel-to-polygon assignment,
+  the detection floor, territorial harmonisation, population denominators, and
+  spatial weights.
 - `.gitattributes` - declares LF line endings for all text (REP-001).
 - `13_quasipoisson_models.csv` now reports 95 % confidence intervals, the dispersion
   parameter φ, and residual degrees of freedom.
@@ -152,14 +153,14 @@ column names only catches what it already knew how to name.
 **Scope.** The **published v1.0.0 Zenodo archive is not affected** - verified file
 by file, it does not contain the table. The GitHub repository is not affected: the
 file is in `.gitignore` and was never committed. But `02_run_analysis.R` regenerates
-it on every run, so **any independent reproduction was affected**: cloning the
-repository and running `run_all.R` - exactly what the repository asks a replicator
-to do - produced an "aggregate public release" with the line list inside. It
-happened locally on 2026-08-25.
+it on every run, so **a reproduction that ran the full pipeline was affected**:
+cloning the repository and running `run_all.R` produced an "aggregate public
+release" with the line list inside. This was observed on 2026-08-25 and reproduced
+in a clean-clone test before the fix.
 
-The published deposit was protected by accident, not by design: it was built from a
-clean clone where the gitignored file did not yet exist on disk. A reproducibility
-deposit whose privacy guarantee depends on nobody reproducing it has no guarantee.
+What kept the file out of the published archive was not the export filter but the
+build environment: the archive was built from a clean clone where the gitignored
+file did not yet exist on disk. The filter itself did not exclude it.
 
 **Fixed** with three independent layers in `05_export_public_release.R`:
 

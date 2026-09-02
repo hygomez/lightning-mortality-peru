@@ -10,15 +10,15 @@ if (!file.exists(actual_file)) stop("Run scripts/02_run_analysis.R first.", call
 actual <- fread(actual_file)
 setnames(actual, "value", "value_actual")
 
-# --- Cambio 28 (v2.0.0): sellar tambien lo que no vive en results_summary.csv ---
+# --- v2.0.0: seal what does not live in results_summary.csv -------------------
 #
-# La v1.0.0 solo controlaba las 26 cifras que emite 02_run_analysis.R. Quedaban sin
-# sellar la dispersion de los modelos, el ajuste de la binomial negativa, la
-# autocorrelacion espacial y los contrastes por subgrupo -- es decir, justo lo que
-# el cambio de especificacion mueve. Se recogen de sus tablas de origen.
+# Version 1.0.0 checked only the 26 figures emitted by 02_run_analysis.R. Model
+# dispersion, negative-binomial fit, spatial autocorrelation and the subgroup
+# contrasts went unsealed -- that is, precisely what the specification change
+# moves. They are collected from their source tables.
 recoger <- function(archivo, f) {
   ruta <- file.path(PATHS$tables, archivo)
-  if (!file.exists(ruta)) { message("QC: falta ", archivo, "; sus indicadores quedaran en FAIL."); return(NULL) }
+  if (!file.exists(ruta)) { message("QC: ", archivo, " is missing; its indicators will FAIL."); return(NULL) }
   f(fread(ruta))
 }
 extra <- rbindlist(list(
@@ -30,8 +30,8 @@ extra <- rbindlist(list(
   }),
   recoger("22_poisson_vs_negbin_aic.csv", function(d) {
     data.table(indicator = c("negbin_theta_model1", "negbin_theta_model2"),
-               value_actual = c(d[modelo %like% "Modelo 1" & familia %like% "negativa", theta],
-                                d[modelo %like% "Modelo 2" & familia %like% "negativa", theta]))
+               value_actual = c(d[modelo %like% "Model 1" & familia %like% "Negative", theta],
+                                d[modelo %like% "Model 2" & familia %like% "Negative", theta]))
   }),
   recoger("16_moran_i.csv", function(d) {
     g <- function(v, w) d[variable == v & pesos == w, I]
@@ -39,11 +39,11 @@ extra <- rbindlist(list(
       indicator = c("moran_I_deaths_queen", "moran_I_deaths_knn8",
                     "moran_I_residuals_m2_queen", "moran_I_residuals_m2_knn8",
                     "moran_I_residuals_m1_queen"),
-      value_actual = c(g("Desenlace: muertes (conteo)", "Queen"),
-                       g("Desenlace: muertes (conteo)", "KNN-8"),
-                       g("Residuos Pearson m2 (b) LOD", "Queen"),
-                       g("Residuos Pearson m2 (b) LOD", "KNN-8"),
-                       g("Residuos Pearson m1", "Queen")))
+      value_actual = c(g("Outcome: deaths (count)", "Queen"),
+                       g("Outcome: deaths (count)", "KNN-8"),
+                       g("Pearson residuals m2 (b) LOD", "Queen"),
+                       g("Pearson residuals m2 (b) LOD", "KNN-8"),
+                       g("Pearson residuals m1", "Queen")))
   }),
   recoger("28_subgroup_contrasts.csv", function(d) {
     a <- d[comparacion %like% "Amazon"]; p <- d[comparacion %like% "Pacific"]
@@ -52,7 +52,7 @@ extra <- rbindlist(list(
                     "mortality_flash_ratio_high_vs_amazon", "RR_high_vs_pacific_coast"),
       value_actual = c(a$RR, a$razon_densidad, a$razon_MFR, p$RR))
   }),
-  # Las doce aserciones terminales entran por su identificador estable.
+  # The twelve terminal assertions enter by their stable identifier.
   recoger("27_terminal_checks.csv", function(d) d[, .(indicator, value_actual = value)])
 ), use.names = TRUE, fill = TRUE)
 if (!is.null(extra) && nrow(extra)) actual <- rbind(actual, extra, use.names = TRUE, fill = TRUE)
@@ -63,8 +63,8 @@ qc[, status := fifelse(is.na(value_actual), "FAIL", fifelse(absolute_difference 
 
 mandatory_figures <- c("Figure_1_altitude_mortality.png", "Figure_2_seasonality.png",
                        "Figure_3_age_sex.png", "Figure_4_density_mortality.png",
-                       # Cambio 29 (v2.0.0): el juego de envio, con la numeracion
-                       # del MANUSCRITO, que no coincide con la de arriba.
+                       # v2.0.0: the submission set, using the MANUSCRIPT
+                       # numbering, which does not match the one above.
                        file.path("manuscript", paste0("Fig", 1:4, ".tif")),
                        file.path("manuscript", paste0("Fig", 1:4, ".eps")))
 figure_qc <- data.table(
@@ -83,29 +83,28 @@ map_status <- data.table(
   absolute_difference = NA_real_,
   status = ifelse(file.exists(file.path(PATHS$figures, "Figure_5_district_posterior_rates.png")), "PASS", "WARN")
 )
-# --- Cambio 27 (v2.0.0): ninguna tabla publicada sin script que la produzca ----
+# --- v2.0.0: no published table without a script that produces it -------------
 #
-# En agosto se descubrio que NUEVE tablas de output/tables/ no las escribia ningun
-# script: dos eran tablas del manuscrito y una era insumo de otros dos scripts, de
-# modo que una cadena entera estaba rota en su primer eslabon. Esta comprobacion
-# lo habria detectado en el acto.
+# NINE tables in output/tables/ were found to be written by no script: two were
+# manuscript tables and one was an input to two other scripts, so a whole chain was
+# broken at its first link. This check detects that condition directly.
 #
-# Criterio: una tabla esta cubierta solo si algun script la ESCRIBE. Mencionarla
-# no basta -- una primera version que buscaba la mera mencion del nombre dio cinco
-# falsos positivos, porque varios scripts LEEN tablas que no producen.
+# Criterion: a table is covered only if some script WRITES it. Mentioning it is not
+# enough -- an earlier version that searched for the bare filename produced five
+# false positives, because several scripts READ tables they do not produce.
 DIR_CODIGO <- c("scripts", "R")
-# Tablas superadas que se conservan como historico y que ningun script regenera a
-# proposito. La exencion es explicita para que sea auditable, no un silencio.
+# Superseded tables kept for the record, which no script regenerates on purpose.
+# The exemption is explicit so that it is auditable rather than silent.
 HISTORICAL_TABLES <- character(0)
 
 archivos_codigo <- unlist(lapply(DIR_CODIGO[dir.exists(DIR_CODIGO)], list.files,
                                  pattern = "\\.(R|r|py)$", recursive = TRUE, full.names = TRUE))
 codigo <- paste(unlist(lapply(archivos_codigo, readLines, warn = FALSE)), collapse = "\n")
 escribe_tabla <- function(f) {
-  # perl = TRUE es imprescindible: en la ERE de POSIX que usa grepl por defecto,
-  # "[^\n]" excluye la LETRA n, no el salto de linea, y ninguna tabla con una n en
-  # el nombre llegaba a coincidir jamas. (?s) permite que la llamada se reparta en
-  # varias lineas; [^"']* admite un prefijo de ruta sin salirse de la cadena.
+  # perl = TRUE is required: in the POSIX ERE that grepl uses by default, "[^\n]"
+  # excludes the LETTER n rather than the newline, so no table with an n in its name
+  # could ever match. (?s) lets the call span several lines; [^"']* allows a path
+  # prefix without leaving the quoted string.
   patron <- paste0("(?s)(fwrite|write_csv_utf8|write\\.csv|to_csv)\\s*\\(.{0,400}?[\"'][^\"']*",
                    gsub("\\.", "\\\\.", f), "[\"']")
   grepl(patron, codigo, perl = TRUE)
@@ -115,7 +114,7 @@ cubierta <- vapply(tablas_pub, escribe_tabla, logical(1))
 huerfanas <- setdiff(tablas_pub[!cubierta], HISTORICAL_TABLES)
 fantasmas <- setdiff(HISTORICAL_TABLES, tablas_pub)
 if (length(fantasmas))
-  warning("HISTORICAL_TABLES menciona tablas que ya no existen: ",
+  warning("HISTORICAL_TABLES lists tables that no longer exist: ",
           paste(fantasmas, collapse = ", "), call. = FALSE)
 orphan_qc <- data.table(
   indicator = "tables_without_producing_script",
@@ -123,8 +122,8 @@ orphan_qc <- data.table(
   value_actual = length(huerfanas), absolute_difference = length(huerfanas),
   status = ifelse(length(huerfanas) == 0, "PASS", "FAIL"))
 if (length(huerfanas))
-  cat("Tablas sin script que las produzca:\n", paste0("  - ", huerfanas, collapse = "\n"), "\n")
-cat(sprintf("Cobertura de tablas: %d de %d escritas por algun script (%d exentas por historicas).\n",
+  cat("Tables with no producing script:\n", paste0("  - ", huerfanas, collapse = "\n"), "\n")
+cat(sprintf("Table coverage: %d of %d written by some script (%d exempt as historical).\n",
             sum(cubierta), length(tablas_pub), length(HISTORICAL_TABLES)))
 
 qc_all <- rbind(qc, figure_qc, map_status, orphan_qc, fill = TRUE)

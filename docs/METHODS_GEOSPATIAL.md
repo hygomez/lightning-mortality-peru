@@ -1,8 +1,7 @@
 # Geospatial methods
 
-Companion to the manuscript's Methods section. The full working document, with all
-diagnostic tables, is kept in Spanish as `METHODS_GEOSPATIAL_ES.md`; this file is
-the English reference for the decisions that affect published figures.
+Companion to the manuscript's Methods section. It documents the geospatial
+decisions that affect published figures, and the evidence for each.
 
 ---
 

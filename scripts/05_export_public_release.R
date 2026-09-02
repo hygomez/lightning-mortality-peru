@@ -15,27 +15,27 @@ dir.create(file.path(release_dir, "aggregate-data"), recursive = TRUE, showWarni
 dir.create(file.path(release_dir, "figures"), recursive = TRUE, showWarnings = FALSE)
 dir.create(file.path(release_dir, "results"), recursive = TRUE, showWarnings = FALSE)
 
-# --- P1 (v2.0.0): exclusion del line list distrito-fecha ------------------------
+# --- P1 (v2.0.0): exclusion of the district-date line list ---------------------
 #
-# DEFECTO CORREGIDO. El filtro de la v1.0.0 miraba solo los NOMBRES DE COLUMNA
-# contra unsafe_pattern. `10_multiple_victim_events.csv` tiene cabecera
-# "analysis_ubigeo, analysis_date, N": ninguno de esos nombres casa con el patron,
-# de modo que el archivo pasaba el filtro y entraba en el ZIP publico.
+# DEFECT FIXED (REP-016). The v1.0.0 filter inspected only COLUMN NAMES against
+# unsafe_pattern. `10_multiple_victim_events.csv` has the header
+# "analysis_ubigeo, analysis_date, N": none of those names matches the pattern, so
+# the file passed the filter and entered the public ZIP.
 #
-# El ZIP v1.0.0 publicado en Zenodo NO lo contiene, porque se construyo desde un
-# clon limpio donde el archivo -- que esta en .gitignore -- no existia. Pero el
-# archivo SI lo produce 02_run_analysis.R en cada corrida, asi que cualquiera que
-# clonase el repositorio y ejecutase run_all.R generaba un release con el line
-# list dentro. Ocurrio de hecho en release/v1.0.0/aggregate-data/ el 2026-08-25.
+# The v1.0.0 ZIP published on Zenodo does NOT contain it, because it was built from
+# a clean clone where the file -- which is in .gitignore -- did not exist. But
+# 02_run_analysis.R does produce the file on every run, so a reproduction that
+# cloned the repository and ran run_all.R generated a release with the line list
+# inside.
 #
-# Un par distrito-fecha con 2 o 3 muertes es cuasi-identificador: en un distrito
-# rural, la fecha exacta de un evento con varias victimas basta para localizar a
-# las personas en la prensa local o en el registro civil. Se excluye por NOMBRE,
-# que es una regla que no depende de heuristicas, y ademas por ESTRUCTURA.
+# A district-date pair with 2 or 3 deaths is quasi-identifying: in a rural district,
+# the exact date of a multi-victim event is enough to locate the individuals through
+# local press or the civil registry. It is excluded BY NAME, which is a rule that
+# does not depend on heuristics, and also BY STRUCTURE.
 DENY_BY_NAME <- c("10_multiple_victim_events.csv")
 unsafe_pattern <- "ID_PERSONA|textos_causales|codigos_cie|case_level|individual"
-# Cualquier tabla con una columna de fecha esta a nivel de registro o de evento:
-# el release solo publica agregados, de modo que ninguna debe llevarla.
+# Any table with a date column is at record or event level: the release publishes
+# aggregates only, so none should carry one.
 date_pattern <- "date|fecha"
 
 safe_tables <- list.files(PATHS$tables, "\\.csv$", full.names = TRUE)
@@ -54,7 +54,7 @@ for (f in safe_tables) {
   file.copy(f, file.path(release_dir, "aggregate-data", basename(f)), overwrite = TRUE)
 }
 if (length(excluidas)) {
-  cat("Excluidas del release publico por privacidad:\n")
+  cat("Excluded from the public release on privacy grounds:\n")
   cat(paste0("  - ", excluidas, collapse = "\n"), "\n")
 }
 
@@ -82,10 +82,10 @@ zipfile <- file.path("release", paste0(
   "lightning-mortality-peru-public-aggregates-v",
   REPOSITORY_VERSION, ".zip"
 ))
-# normalizePath() sobre un archivo que AUN NO EXISTE devuelve la ruta relativa tal
-# cual. Como zip::zipr() usa root = release_dir, se situa en otro directorio y esa
-# ruta relativa deja de resolver: "Cannot open zip file for writing". Se construye
-# la ruta absoluta a partir del directorio contenedor, que si existe.
+# normalizePath() on a file that DOES NOT YET EXIST returns the relative path
+# unchanged. Because zip::zipr() uses root = release_dir it moves to another
+# directory and that relative path stops resolving: "Cannot open zip file for
+# writing". The absolute path is built from the containing directory, which exists.
 zip_abs <- file.path(normalizePath(dirname(zipfile), winslash = "/", mustWork = TRUE),
                      basename(zipfile))
 
@@ -103,9 +103,9 @@ if (!length(files_rel)) {
   stop("The public release directory is empty.", call. = FALSE)
 }
 
-# --- Post-condicion de privacidad: se comprueba lo COPIADO, no lo que se penso --
-# El filtro de arriba decide; esto verifica el resultado. Si alguna vez divergen,
-# el release no se crea.
+# --- Privacy post-condition: check what was COPIED, not what was intended ------
+# The filter above decides; this verifies the outcome. If the two ever diverge, the
+# release is not created.
 copiados <- list.files(release_dir, recursive = TRUE, full.names = TRUE)
 fugas <- basename(copiados)[basename(copiados) %in% DENY_BY_NAME]
 con_fecha <- character(0)
@@ -114,11 +114,11 @@ for (f in copiados[grepl("\\.csv$", copiados)]) {
   if (any(grepl(date_pattern, h, ignore.case = TRUE))) con_fecha <- c(con_fecha, basename(f))
 }
 if (length(fugas) || length(con_fecha)) {
-  stop("FUGA DE PRIVACIDAD: el release contiene ",
+  stop("PRIVACY LEAK: the release contains ",
        paste(unique(c(fugas, con_fecha)), collapse = ", "),
-       ". No se crea el paquete.", call. = FALSE)
+       ". The package is not created.", call. = FALSE)
 }
-cat(sprintf("Post-condicion de privacidad: %d archivos revisados, 0 con nombre vetado, 0 con columna de fecha.\n",
+cat(sprintf("Privacy post-condition: %d files checked, 0 denied by name, 0 with a date column.\n",
             length(copiados)))
 
 zip::zipr(

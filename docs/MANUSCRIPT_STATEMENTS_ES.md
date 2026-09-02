@@ -10,9 +10,8 @@ Los autores declaran que no existen conflictos de interes relacionados con esta 
 
 ## Consideraciones eticas
 
-No se obtuvo aprobacion de un comite institucional de etica. El estudio utilizo datos administrativos secundarios y no implico reclutamiento, contacto ni intervencion directa con seres humanos. No se intento reidentificar a ninguna persona y los registros individuales de mortalidad no se redistribuyen publicamente.
+Este estudio no implico ninguna recoleccion nueva de datos de participantes humanos. Es un analisis secundario de registros administrativos anonimizados de mortalidad publicados por el Ministerio de Salud del Peru a traves de la Plataforma Nacional de Datos Abiertos y de descarga libre en el momento del acceso. No hubo reclutamiento, contacto, intervencion ni interaccion con participantes humanos, y no se intento reidentificar a ninguna persona. El procedimiento de etica en investigacion de la Universidad Nacional del Altiplano emite determinaciones de exencion de forma prospectiva, para estudios aun no iniciados, y por tanto no ofrece un mecanismo aplicable al analisis secundario retrospectivo de datos ya publicos que aqui se reporta. Por consiguiente, no se requirio ni se solicito aprobacion etica.
 
-Nota editorial: este texto es transparente, pero no equivale a una exoneracion emitida por un comite. Si la revista solicita una determinacion institucional, los autores deberan atender esa solicitud.
 
 ## Agradecimientos
 
@@ -24,4 +23,4 @@ Beatriz Flores Huanca: Conceptualization; Investigation; Project administration;
 
 ## Disponibilidad de datos y codigo
 
-Los datos agregados no identificables y los materiales de reproducibilidad seran archivados permanentemente en Zenodo en https://doi.org/10.5281/zenodo.21764559. El codigo analitico estara disponible en GitHub en https://github.com/hygomez/lightning-mortality-peru y archivado en Zenodo en https://doi.org/10.5281/zenodo.21764486. Los registros individuales de SINADEF no se redistribuyen porque contienen informacion sensible sobre mortalidad.
+Los datos agregados no identificables y los materiales de reproducibilidad seran archivados permanentemente en Zenodo en https://doi.org/10.5281/zenodo.21764558. El codigo analitico estara disponible en GitHub en https://github.com/hygomez/lightning-mortality-peru y archivado en Zenodo en https://doi.org/10.5281/zenodo.21764485. Los registros individuales de SINADEF no se redistribuyen porque contienen informacion sensible sobre mortalidad.

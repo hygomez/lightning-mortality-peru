@@ -2,13 +2,13 @@
 
 [![Software DOI](https://zenodo.org/badge/1320835899.svg)](https://doi.org/10.5281/zenodo.21764485)
 
-**Software v1.0.0:** https://doi.org/10.5281/zenodo.21764486
-**Aggregate dataset v1.0.0:** https://doi.org/10.5281/zenodo.21764559
+**Software (concept DOI, always resolves to the latest version):** https://doi.org/10.5281/zenodo.21764485
+**Aggregate dataset (concept DOI, always resolves to the latest version):** https://doi.org/10.5281/zenodo.21764558
 **GitHub:** https://github.com/hygomez/lightning-mortality-peru
 
 **Public reproducible repository, version 1.0.0**
 
-Associated study: *High-altitude lightning mortality despite moderate flash density in the Peruvian Andes: a nationwide geospatial study, 2017-2024*
+Associated study: *Lightning mortality at high altitude exceeds that of Peru's Amazon lowlands despite lower flash density: a nationwide study, 2017-2024*
 
 ## Scope
 
@@ -96,11 +96,11 @@ The authors declare no competing interests.
 
 ## Ethics
 
-No institutional ethics approval was obtained. The study used secondary administrative data, involved no direct recruitment, contact, or intervention with human participants, and made no attempt to re-identify individuals. Individual-level mortality records are not redistributed.
+This study did not involve any new collection of data from human participants. It is a secondary analysis of anonymized administrative mortality records released by the Peruvian Ministry of Health through the National Open Data Platform and openly downloadable at the time of access. No recruitment, contact, intervention or interaction with human participants took place, and no attempt was made to re-identify any individual. The research ethics procedure of the National University of the Altiplano issues exemption determinations prospectively, for studies that have not yet begun, and therefore provides no mechanism applicable to the retrospective secondary analysis of already-public data reported here. No ethical approval was therefore required or sought.
 
 ## Availability
 
-The analytical code is maintained on GitHub at https://github.com/hygomez/lightning-mortality-peru and permanently archived in Zenodo at https://doi.org/10.5281/zenodo.21764486. Aggregate, non-identifying data and reproducibility materials are archived in Zenodo at https://doi.org/10.5281/zenodo.21764559. Individual-level SINADEF mortality records, personal identifiers, free-text cause-of-death chains, and private adjudication files are not redistributed.
+The analytical code is maintained on GitHub at https://github.com/hygomez/lightning-mortality-peru and permanently archived in Zenodo at https://doi.org/10.5281/zenodo.21764485. Aggregate, non-identifying data and reproducibility materials are archived in Zenodo at https://doi.org/10.5281/zenodo.21764558. Individual-level SINADEF mortality records, personal identifiers, free-text cause-of-death chains, and private adjudication files are not redistributed.
 
 ## Licenses
 
@@ -110,6 +110,6 @@ The analytical code is maintained on GitHub at https://github.com/hygomez/lightn
 
 ## Citation
 
-Software: Flores Huanca, B., Gomez Quispe, H. Y., Romero Flores, R. A., et al. (2026). *Reproducible analysis code for lightning mortality at high altitude in the Peruvian Andes, 2017-2024* (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.21764486
+Software: Flores Huanca, B., Gomez Quispe, H. Y., Romero Flores, R. A., et al. (2026). *Reproducible analysis code for lightning mortality at high altitude in the Peruvian Andes, 2017-2024* (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.21764485
 
-Dataset: Flores Huanca, B., Gomez Quispe, H. Y., Romero Flores, R. A., et al. (2026). *Aggregated data supporting the study of lightning mortality in the Peruvian Andes, 2017-2024* (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.21764559
+Dataset: Flores Huanca, B., Gomez Quispe, H. Y., Romero Flores, R. A., et al. (2026). *Aggregated data supporting the study of lightning mortality in the Peruvian Andes, 2017-2024* (Version 1.0.0). Zenodo. https://doi.org/10.5281/zenodo.21764558

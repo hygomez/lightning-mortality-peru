@@ -27,12 +27,12 @@ p <- ggplot(map) +
        caption = "District rates are based on residence and should not be interpreted as exact strike locations.") +
   theme_void(base_size = 10) + theme(legend.position = "right")
 
-# Cambio v2.0.0: se emiten las dos versiones siempre. El TIFF a 600 ppp con
-# compresion LZW es el que exige el deposito; el PNG queda para lectura rapida.
+# v2.0.0: both versions are always emitted. The 600 dpi LZW-compressed TIFF is the
+# one the deposit requires; the PNG is for quick inspection.
 ggsave(file.path(PATHS$figures, "Figure_5_district_posterior_rates.png"), p,
        width = 7, height = 8.6, dpi = 300)
 ggsave(file.path(PATHS$figures, "Figure_5_district_posterior_rates.tiff"), p,
        width = 7, height = 8.6, dpi = 600, compression = "lzw")
-cat(sprintf("Figura 5: %d distritos, %d sin tasa posterior.\n",
+cat(sprintf("Figure 5: %d districts, %d without a posterior rate.\n",
             nrow(map), sum(is.na(map$posterior_rate))))
 cat("District map generated.\n")
