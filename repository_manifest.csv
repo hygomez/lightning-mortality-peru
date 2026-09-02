@@ -23,7 +23,7 @@ data/processed/rayo_densidad_distrito.csv,189229,1a9fe98291fe71b31bd266e307627de
 data/restricted/.gitkeep,0,d41d8cd98f00b204e9800998ecf8427e
 data/schema/required_inputs.csv,962,ee5dee3d2cd79d8a2e9bbd84f1b9fa1d
 data/spatial/districts.gpkg,29052928,3673d66ceb42c620eec15053acd60bda
-docs/CODEBOOK.md,4761,0a9868e8be8d4ec7b223c33974ebabaa
+docs/CODEBOOK.md,5235,7bdf318463755591ebc856e7be9a3a5c
 docs/COVER_LETTER_TEMPLATE.md,1647,b029f59fe3198a066225480c6f85c389
 docs/DATA_AVAILABILITY.md,1360,5e4d9602f8f97c66490df64844eea3b5
 docs/MANUSCRIPT_STATEMENTS_EN.md,3069,a1134741012a3d8b913d38aa9eb43b79
@@ -59,7 +59,7 @@ output/figures/manuscript/Fig4.eps,13395,ba754dd59021b2c30e22b0242e492254
 output/figures/manuscript/Fig4.tif,1537252,c0fdb281d1d28334dad929e3c1b0623c
 output/logs/.gitkeep,0,d41d8cd98f00b204e9800998ecf8427e
 output/qc/qc_report.csv,4126,66c3780193eaadaed2321522b3109900
-output/qc/qc_summary.txt,4080,731b8072de80dfaf8623732dfcc54de8
+output/qc/qc_summary.txt,4080,aed089b64f3b5e170c54206eb71cc1e9
 output/tables/01_mortality_by_altitude.csv,483,d56d57dd79ff2b6cdf34c8afeda3ba6b
 output/tables/02_rate_ratios.csv,179,6912f0bc429ad55b678ee9cf29c03beb
 output/tables/03_density_and_mortality_to_flashes.csv,775,3117fb0a6c550d64e70c3403a26e15aa
@@ -106,7 +106,7 @@ scripts/06_spatial_diagnostics.R,12519,16ddc59f04609b6cb4d5c50256fee7a9
 scripts/07_sensitivity_specifications.R,15157,acbee33b6bcc9aaa96894c46232f117a
 scripts/08_terminal_checks.R,8691,50af20992d0e0afcf4310697207c246b
 scripts/09_figures_manuscript.R,7554,4e00776433d10a461c5bb6c807b5d000
-scripts/90_finalize_metadata.R,5086,441af600be249098406c70373197cd1f
+scripts/90_finalize_metadata.R,5437,8ad960502d408d86f305c7b9a807ca18
 scripts/99_freeze_environment.R,3646,fab36d831a738a1cf8948dbe3fababc8
 scripts/run_all.R,1755,eaeda77ee84f2ad94357514aaf7fdf2f
 tests/test_case_definition.R,605,0add87dac658a1739f796dd3b95753f6

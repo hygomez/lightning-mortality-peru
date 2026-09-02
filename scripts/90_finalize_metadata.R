@@ -84,9 +84,14 @@ jsonlite::write_json(zen, ".zenodo.json", auto_unbox = TRUE, pretty = TRUE)
 # los archivos efectivamente versionados, que es lo que se archiva.
 tracked <- system2("git", c("ls-files"), stdout = TRUE)
 tracked <- tracked[file.exists(tracked)]
-# El manifiesto no puede sellarse a si mismo: su md5 cambia al escribirlo, de modo
-# que cualquier entrada propia seria falsa por construccion. Se excluye.
-tracked <- setdiff(tracked, "repository_manifest.csv")
+# A manifest cannot seal files that change after it is written. Three are excluded
+# for that reason, and the exclusion is explicit so it is auditable:
+#   - repository_manifest.csv: its own md5 changes as it is written.
+#   - renv.lock and session-info.txt: 99_freeze_environment.R writes them AFTER
+#     this script runs (see run_all.R), so any entry here would be one run stale.
+# Everything else in the repository is sealed.
+WRITTEN_AFTER_THIS <- c("repository_manifest.csv", "renv.lock", "session-info.txt")
+tracked <- setdiff(tracked, WRITTEN_AFTER_THIS)
 manifest <- data.table(
   file = tracked,
   bytes = file.size(tracked),
